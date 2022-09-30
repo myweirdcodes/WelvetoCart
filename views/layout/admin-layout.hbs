@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Title -->
+    <title>Login | Graindashboard UI Kit</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/user/img/favicon.ico">
+
+    <!-- Template -->
+    <link rel="stylesheet" href="/user/graindashboard/css/graindashboard.css">
+  </head>
+
+  <body class="has-sidebar has-fixed-sidebar-and-header">
+  {{#if admin}}
+  {{>admin-header}}
+   {{{body}}}
+   {{>admin-footer}}
+   {{else}}
+   {{{body}}}
+   {{/if}}
+    
+
+	<script src="/user/graindashboard/js/graindashboard.js"></script>
+    <script src="/user/graindashboard/js/graindashboard.vendor.js"></script>
+  </body>
+</html>
