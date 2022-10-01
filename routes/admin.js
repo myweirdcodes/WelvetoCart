@@ -1,5 +1,4 @@
 const express = require('express');
-const { adminLogin } = require('../controller/admin-controller');
 const router = express.Router();
 const admincontrol = require('../controller/admin-controller');
 const session = require('../middlewares/session_middleware')
@@ -32,7 +31,7 @@ router.get('/viewProduct',session.adminSession,admincontrol.adminViewProduct)
 
 router.get('/updateProduct',session.adminSession,admincontrol.updateProduct)
 
-router.get('/viewUser',session.adminSession,admincontrol.adminViewProduct)
+router.get('/viewProduct',session.adminSession,admincontrol.adminViewProduct)
 
 router.get('/', admincontrol.adminLoginPage);
 
@@ -46,6 +45,8 @@ router.post('/signup',admincontrol.adminSignup)
 
 
 router.post('/admin/addProduct',session.adminSession,admincontrol.addProduct)
+
+router.get('/viewUser',session.adminSession,admincontrol.viewUser)
 
 
 module.exports = router;

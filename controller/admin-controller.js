@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const adminModel = require('../model/adminSchema')
 const categoryModel = require('../model/categorySchema')
 const productModel = require('../model/productSchema');
+const userModel = require('../model/userSchema')
 const { response } = require('../app');
 
 
@@ -53,9 +54,12 @@ module.exports = {
     },
     adminViewProduct:async(req,res)=>{
        if(req.session.adminLoggedIn){
+        // console.log(currentadmin,'adminViewProduct 0')
+        console.log(req.session.admin,'adminViewproduct 2')
         let productData = await productModel.find().populate('category').lean();
         console.log(productData, 'adminviewproduct 1')
-        res.render('admin/view-product',{layout:'admin-layout',admin:true,productData})
+        currentAdmin = req.session.admin
+        res.render('admin/view-product',{layout:'admin-layout',admin:true,productData,currentAdmin})
        }
        else{
         res.redirect('/admin')
@@ -117,5 +121,10 @@ module.exports = {
         else{
             res.redirect('/admin')
         }
+    },
+    viewUser:async(req,res)=>{
+        let userData = await userModel.find().lean()
+        console.log(userData,'viewUser 1')
+        res.render('admin/view-user',{layout:'admin-layout',admin:true,userData,currentAdmin:req.session.admin});
     }
 }

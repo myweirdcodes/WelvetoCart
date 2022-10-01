@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({secret:"Key",cookie:{maxAge:60000*5},resave: true,
+app.use(session({secret:"Key",cookie:{maxAge:60000*20},resave: true,
 saveUninitialized: true}))
 app.use((req, res, next) => {
   res.set("Cache-Control", "no-store");

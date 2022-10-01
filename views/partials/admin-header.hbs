@@ -75,8 +75,8 @@
                 <div class="dropdown mx-3 dropdown ml-2">
                     <a id="profileMenuInvoker" class="header-complex-invoker" href="#" aria-controls="profileMenu" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#profileMenu" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-animation-in="fadeIn" data-unfold-animation-out="fadeOut">
                         <!--img class="avatar rounded-circle mr-md-2" src="#" alt="John Doe"-->
-                        <span class="mr-md-2 avatar-placeholder">J</span>
-                        <span class="d-none d-md-block">John Doe</span>
+                        <span class="mr-md-2 avatar-placeholder">{{currentAdmin.name.[0]}}</span>
+                        <span class="d-none d-md-block">{{currentAdmin.name}}</span>
                         <i class="gd-angle-down d-none d-md-block ml-2"></i>
                     </a>
 
@@ -156,7 +156,7 @@
                 <!-- Users: subUsers -->
                 <ul id="subUsers" class="side-nav-menu side-nav-menu-second-level mb-0" style="display: block;">
                     <li class="side-nav-menu-item active">
-                        <a class="side-nav-menu-link" href="users.html">All Users</a>
+                        <a class="side-nav-menu-link" href="/admin/viewUser">All Users</a>
                     </li>
                     <li class="side-nav-menu-item">
                         <a class="side-nav-menu-link" href="user-edit.html">Add new</a>
@@ -173,7 +173,7 @@
               <span class="side-nav-menu-icon d-flex mr-3">
                 <i class="gd-lock"></i>
               </span>
-                    <span class="side-nav-fadeout-on-closed media-body">Authentication</span>
+                    <span class="side-nav-fadeout-on-closed media-body">Products</span>
                     <span class="side-nav-control-icon d-flex">
                 <i class="gd-angle-right side-nav-fadeout-on-closed"></i>
               </span>
@@ -183,13 +183,13 @@
                 <!-- Pages: subPages -->
                 <ul id="subPages" class="side-nav-menu side-nav-menu-second-level mb-0">
                     <li class="side-nav-menu-item">
-                        <a class="side-nav-menu-link" href="login.html">Login</a>
+                        <a class="side-nav-menu-link" href="/admin/viewProduct">View products</a>
                     </li>
                     <li class="side-nav-menu-item">
-                        <a class="side-nav-menu-link" href="register.html">Register</a>
+                        <a class="side-nav-menu-link" href="/admin/addProduct">Add product</a>
                     </li>
                     <li class="side-nav-menu-item">
-                        <a class="side-nav-menu-link" href="password-reset.html">Forgot Password</a>
+                        <a class="side-nav-menu-link" href="/admin/addCategory">Add Category</a>
                     </li>
                     <li class="side-nav-menu-item">
                         <a class="side-nav-menu-link" href="password-reset-2.html">Forgot Password 2</a>

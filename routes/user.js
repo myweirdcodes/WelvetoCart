@@ -17,6 +17,8 @@ router.get('/shop',usercontrol.getAllProducts)
 
 router.get('/cart/:id',session.userSession,usercontrol.addToCart)
 
+router.get('/showCart/:id',session.userSession,usercontrol.getCart)
+
 router.get('/logout',usercontrol.logout)
 
 router.get('/productDetails/:id',session.userSession,usercontrol.productDetails)

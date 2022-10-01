@@ -76,6 +76,7 @@ module.exports = {
         console.log(req.session.loggedIn, "getAllProducts 1")
         let productData = await productModel.find().lean()
         let categoryData = await categoryModel.find().lean()
+        console.log(req.session.user,'getAllproducts 1')
         res.render('user/view-products',{user:req.session.user,inUse:true,productData,categoryData})
     //     if(req.session.loggedIn){
     //     }
@@ -92,12 +93,17 @@ module.exports = {
             console.log(req.session.user, 'getCartProducts 2')
             let userCart = await cartModel.findOne({userId:userId}).lean()
             if(userCart){
-
+               productExist = await cartModel.findOne({userId:userId,"products.productId":productId});
+               if(productExist){
+                await cartModel.updateOne({userId:userId,"products.productId":productId},{$inc:{"products.$.quantity":1}})
+               }
+               else{
+                await cartModel.findOneAndUpdate({userId:userId},{$push:{products:{productId:productId,quantity:1}}})
+               }
             }else{
               await cartModel.create({userId:userId,products:{productId:productId,quantity:1}})
-              cartData = await cartModel.findOne({userId:userId}).populate("products.productId").lean()
             }
-            res.render('user/cart',{inUse:true,cartData})
+            res.redirect('/showCart/:id')
         }
         else{
             res.redirect('/loginPage')
@@ -105,7 +111,11 @@ module.exports = {
     },
     getCart:async(req,res)=>{
         if(req.session.loggedIn){
-            let cartData = await cart
+            let cartData = await cartModel.findOne({userId:req.session.user._id}).populate('products.productId').lean()
+            console.log(cartData,'getCart 1')
+            console.log(cartData.userId,'getCart ')
+            res.render('user/cart',{inUse:true,cartData,user:req.session.user})
+            
         }
     },
     logout:(req,res)=>{
