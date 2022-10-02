@@ -114,17 +114,24 @@ module.exports = {
          res.redirect("/admin/viewProduct")
        }
     },
-    updateProduct:(req,res)=>{
+    updateProduct:async(req,res)=>{
         if(req.session.adminLoggedIn){
-            res.render('admin/update-product',{layout:"admin-layout",admin:true})
+            let productId = req.params.id
+            let productData = await productModel.findOne({_id:productId}).populate('category').lean()
+            let categoryData = await categoryModel.find().lean()
+            console.log(categoryData,'update product 1')
+            res.render('admin/update-product',{layout:"admin-layout",admin:true,currentAdmin:req.session.admin,productData,categoryData})
         }
         else{
             res.redirect('/admin')
         }
     },
+    // postUpdateProduct:async(req,res)=>{
+    //    await productModel.updateOne({_id:})
+    // },
     viewUser:async(req,res)=>{
         let userData = await userModel.find().lean()
-        console.log(userData,'viewUser 1')
+        
         res.render('admin/view-user',{layout:'admin-layout',admin:true,userData,currentAdmin:req.session.admin});
     }
 }

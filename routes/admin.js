@@ -29,7 +29,7 @@ router.post('/addCategory',session.adminSession,admincontrol.postAddCategory)
 
 router.get('/viewProduct',session.adminSession,admincontrol.adminViewProduct)
 
-router.get('/updateProduct',session.adminSession,admincontrol.updateProduct)
+router.get('/updateProduct/:id',session.adminSession,admincontrol.updateProduct)
 
 router.get('/viewProduct',session.adminSession,admincontrol.adminViewProduct)
 
@@ -44,7 +44,7 @@ router.get('/signupPage',admincontrol.adminSignupPage)
 router.post('/signup',admincontrol.adminSignup)
 
 
-router.post('/admin/addProduct',session.adminSession,admincontrol.addProduct)
+
 
 router.get('/viewUser',session.adminSession,admincontrol.viewUser)
 

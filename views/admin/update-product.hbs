@@ -237,32 +237,35 @@
       <div class="col-md-6">
         <h2 class="text-center">Edit Product</h2>
         <form
-          action="/admin/edit-product/{{product._id}}"
+          action="/admin/edit-product/{{productData._id}}"
           enctype="multipart/form-data"
-          method="post"
+          method="POST"
         >
           <label for="">Name</label>
           <input
             type="text"
             name="name"
             class="form-control"
-            value="{{product.Name}}"
+            placeholder=""
+            value="{{productData.name}}"
           />
 
           <label for="">Category</label>
-          <input
-            type="text"
-            name="category"
-            class="form-control"
-            value="{{product.Category}}"
-          />
-
+          <h5>{{productData.category.category}}</h5>
+          
+          
+          <select name="category" class="form-select mb-3"   id="">
+                        {{#each categoryData}}
+                        <option value="{{this._id}}">{{this.category}}</option>
+                        {{/each}}
+                    </select><br>
+           
           <label for="">Price</label>
           <input
             type="text"
             name="price"
             class="form-control"
-            value="{{product.Price}}"
+            value="{{productData.price}}"
           />
 
           <label for="">Description</label>
@@ -270,16 +273,26 @@
             type="text"
             name="description"
             class="form-control"
-            value="{{product.Description}}"
+            value="{{productData.description}}"
           />
 
           <label for="">Image</label>
           <img
-            src="/product-images/{{product._id}}.jpg"
+            src="/product_uploads/{{productData.image.[0]}}"
             alt=""
-            style="width: 100px;height: auto" id="imgView" class='py-3' "
+            style="width: 100px;height: 150px" id="imgView" class='py-3' "
           />
-          <input type="file" name="image" class="form-control" onchange="viewImage(event)"/>
+           <img
+            src="/product_uploads/{{productData.image.[1]}}"
+            alt=""
+            style="width: 100px;height: 150px" id="imgView" class='py-3' "
+          />
+          <img
+            src="/product_uploads/{{productData.image.[2]}}"
+            alt=""
+            style="width: 100px;height: 150px" id="imgView" class='py-3' "
+          />
+          <input type="file" name="image" class="form-control" onchange="viewImage(event)" id="formFileMultiple" multiple/>
 
           <button type="submit" class="btn btn-success mt-4">Submit</button>
         </form>
