@@ -14,10 +14,16 @@ router.post('/login',usercontrol.doLogin)
 
 router.get('/shop',usercontrol.getAllProducts)
 
+router.get('/viewProductByCategory/:id',usercontrol.viewProductByCategory)
+
 
 router.get('/cart/:id',session.userSession,usercontrol.addToCart)
 
 router.get('/showCart/:id',session.userSession,usercontrol.getCart)
+
+router.get('/addToWishlist/:id',session.userSession,usercontrol.addToWishlist)
+
+router.get('/getWishlist/:id',session.userSession,usercontrol.getWishlist)
 
 router.get('/logout',usercontrol.logout)
 

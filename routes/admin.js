@@ -31,6 +31,10 @@ router.get('/viewProduct',session.adminSession,admincontrol.adminViewProduct)
 
 router.get('/updateProduct/:id',session.adminSession,admincontrol.updateProduct)
 
+router.post('/postUpdateProduct/:id',session.adminSession,upload.array('image',3),admincontrol.postUpdateProduct)
+
+router.get('/deleteProduct/:id',session.adminSession,admincontrol.deleteProduct)
+
 router.get('/viewProduct',session.adminSession,admincontrol.adminViewProduct)
 
 router.get('/', admincontrol.adminLoginPage);
@@ -47,6 +51,8 @@ router.post('/signup',admincontrol.adminSignup)
 
 
 router.get('/viewUser',session.adminSession,admincontrol.viewUser)
+
+router.get('/blockUnblockUser/:id',session.adminSession,admincontrol.blockUnblockUser)
 
 
 module.exports = router;

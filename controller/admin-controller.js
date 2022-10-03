@@ -73,7 +73,7 @@ module.exports = {
     addProduct:async(req,res)=>{
         if(req.session.adminLoggedIn){
             const categorydata = await categoryModel.find().lean()
-            res.render('admin/add-product',{layout:"admin-layout",admin:true,categorydata})
+            res.render('admin/add-product',{layout:"admin-layout",admin:true,categorydata,currentAdmin:req.session.admin})
         }
         else{
             res.redirect('/admin')
@@ -97,7 +97,7 @@ module.exports = {
     },
     addCategory:(req,res)=>{
         if(req.session.adminLoggedIn){
-            res.render('admin/add-category',{layout:"admin-layout",admin:true})
+            res.render('admin/add-category',{layout:"admin-layout",admin:true,currentAdmin:req.session.admin})
         }
         else{
             res.redirect('/admin')
@@ -126,12 +126,35 @@ module.exports = {
             res.redirect('/admin')
         }
     },
-    // postUpdateProduct:async(req,res)=>{
-    //    await productModel.updateOne({_id:})
-    // },
+    postUpdateProduct:async(req,res)=>{
+        console.log(req.files[0],'postUpdate Product 1')
+        if(req.files[0]){
+        const arrImages = req.files.map((value)=>value.filename)
+        req.body.image = arrImages
+       await productModel.updateOne({_id:req.params.id},{$set:{name:req.body.name,brandName:req.body.brandName,category:req.body.category,description:req.body.description,stock:req.body.stock,price:req.body.price,image:req.body.image}})
+    }else{
+        await productModel.updateOne({_id:req.params.id},{$set:{name:req.body.name,brandName:req.body.brandName,category:req.body.category,description:req.body.description,stock:req.body.stock,price:req.body.price}})  
+    }
+       res.redirect('/admin/viewProduct')
+    },
     viewUser:async(req,res)=>{
         let userData = await userModel.find().lean()
         
         res.render('admin/view-user',{layout:'admin-layout',admin:true,userData,currentAdmin:req.session.admin});
+    },
+    blockUnblockUser:async(req,res)=>{
+        let userData = userModel.findOne({_id:req.params.id}).lean()
+        if(userData.status){
+            await userModel.updateOne({_id:req.params.id},{$set:{status:false}})
+        }
+        else{
+            await userModel.updateOne({_id:req.params.id},{$set:{status:true}})
+        }
+        res.redirect('/admin/viewUser')
+
+    },
+    deleteProduct:async(req,res)=>{
+        await productModel.deleteOne({_id:req.params.id})
+        res.redirect('/admin/viewProduct')
     }
 }
