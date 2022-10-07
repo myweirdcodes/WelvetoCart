@@ -12,6 +12,8 @@ router.get('/loginPage',usercontrol.getLoginPage)
 
 router.post('/login',usercontrol.doLogin)
 
+router.get('/getUserProfile',usercontrol.getUserProfile)
+
 router.get('/shop',usercontrol.getAllProducts)
 
 router.get('/viewProductByCategory/:id',usercontrol.viewProductByCategory)
@@ -20,6 +22,10 @@ router.get('/viewProductByCategory/:id',usercontrol.viewProductByCategory)
 router.get('/cart/:id',session.userSession,usercontrol.addToCart)
 
 router.get('/showCart/:id',session.userSession,usercontrol.getCart)
+
+router.post('/changeProductQuantity',usercontrol.changeProductQuantity)
+
+//router.post('/removeCartItem', usercontrol.removeCartItem)
 
 router.get('/addToWishlist/:id',session.userSession,usercontrol.addToWishlist)
 

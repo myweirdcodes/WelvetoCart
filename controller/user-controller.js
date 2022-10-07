@@ -11,7 +11,26 @@ const otp = require("./otp");
 const { response } = require("express");
 var objectId = require("mongodb").ObjectID;
 
+async function getCartCount(req,res){
+  let cart = await cartModel.findOne({userId: req.session.user._id}).lean()
+  let cartcount = 0;
+  if(cart){
+    cartcount = cart.products.length
+  }
+  return cartcount
+  }
+
+ async function getWishlistCount(req,res){
+    let wishlist = await wishlistModel.findOne({userId: req.session.user._id}).lean()
+    let wishlistcount = 0;
+    if(wishlist){
+      wishlistcount = wishlist.products.length
+    }
+    return wishlistcount
+ } 
+
 module.exports = {
+  
   // verifyLogin:(req,res,next)=>{
   //     if(req.session.loggedIn){
   //         next();
@@ -62,6 +81,7 @@ module.exports = {
         if (userTrue) {
           req.session.user = user;
           req.session.loggedIn = true;
+          
           res.redirect("/shop");
         } else {
           res.send("wrong password");
@@ -79,17 +99,21 @@ module.exports = {
     let productData = await productModel.find().lean();
     let categoryData = await categoryModel.find().lean();
     console.log(req.session.user, "getAllproducts 1");
+    
+    
+   let cartcount = await getCartCount(req,res);
+   let wishlistcount = await getWishlistCount(req,res)
+   
+
+    
     res.render("user/view-products", {
       user: req.session.user,
       inUse: true,
       productData,
       categoryData,
+      cartcount,
+      wishlistcount
     });
-    //     if(req.session.loggedIn){
-    //     }
-    //     else{
-    //         res.redirect('/loginPage')
-    //     }
   },
   viewProductByCategory: async function (req, res) {
     console.log(req.params.id, "viewProductByCategory 0");
@@ -101,18 +125,23 @@ module.exports = {
       .find({ category: objectId(req.params.id) })
       .lean();
     //    console.log(productData,'viewProductByCategory 2')
+    let cartcount = await getCartCount(req,res);
+   let wishlistcount = await getWishlistCount(req,res)
     res.render("user/productsByCategory", {
       productData,
       inUse: true,
       user: req.session.user,
+      cartcount,
+      wishlistcount
     });
   },
   addToCart: async (req, res) => {
     if (req.session.loggedIn) {
+      console.log('api call, add to cart 0')
       let productId = req.params.id;
       let userId = req.session.user._id;
-      console.log(req.session.loggedIn, "getCartProducts 1");
-      console.log(req.session.user, "getCartProducts 2");
+      console.log(req.session.loggedIn, "addToCart 1");
+      console.log(req.session.user, "addToCart 2");
       let userCart = await cartModel.findOne({ userId: userId }).lean();
       if (userCart) {
         productExist = await cartModel.findOne({
@@ -124,19 +153,23 @@ module.exports = {
             { userId: userId, "products.productId": productId },
             { $inc: { "products.$.quantity": 1 } }
           );
+          // res.json({status:true})
         } else {
           await cartModel.findOneAndUpdate(
             { userId: userId },
             { $push: { products: { productId: productId, quantity: 1 } } }
           );
+          res.json({status:true})
         }
       } else {
         await cartModel.create({
           userId: userId,
           products: { productId: productId, quantity: 1 },
         });
+        res.json({status:true})
       }
-      res.redirect("/showCart/:id");
+      
+      // res.redirect("/showCart/:id");
     } else {
       res.redirect("/loginPage");
     }
@@ -148,11 +181,15 @@ module.exports = {
         .populate("products.productId")
         .lean();
       console.log(cartData, "getCart 1");
-      console.log(cartData.userId, "getCart ");
+      console.log(cartData._id, "getCart ");
+      let cartcount = await getCartCount(req,res);
+   let wishlistcount = await getWishlistCount(req,res)
       res.render("user/cart", {
         inUse: true,
         cartData,
         user: req.session.user,
+      cartcount,
+      wishlistcount
       });
     }
   },
@@ -179,10 +216,14 @@ module.exports = {
       .lean();
     console.log(productdetails.image[0], "productdetails 1");
     console.log(productdetails, "brrrrrrrrrrrr");
+    let cartcount = await getCartCount(req,res);
+   let wishlistcount = await getWishlistCount(req,res)
     res.render("user/productDetails", {
       user: req.session.user,
       inUse: true,
       productdetails,
+      wishlistcount,
+        cartcount
     });
   },
   addToWishlist: async (req, res) => {
@@ -206,14 +247,17 @@ module.exports = {
             { userId: userId },
             { $push: { products: { productId: productId } } }
           );
+          res.json({status:true})
         }
       } else {
         await wishlistModel.create({
           userId: userId,
           products: { productId: productId},
         });
+        res.json({status:true})
       }
-      res.redirect("/shop");
+      
+      // res.redirect("/shop");
     } else {
       res.redirect("/loginPage");
     }
@@ -226,10 +270,43 @@ module.exports = {
         .lean();
     //   console.log(wishlistData, "getWishlist 1");
     //   console.log(wishlistData.userId, "getWishlist 2 ");
+    let cartcount = await getCartCount(req,res);
+    let wishlistcount = await getWishlistCount(req,res)
       res.render("user/wishlist", {
         inUse: true,
         wishlistData,
         user: req.session.user,
+        wishlistcount,
+        cartcount
       });
+  },
+  deleteWishlistProduct:async(req,res)=>{
+
+  },
+  getUserProfile:async(req,res)=>{
+    res.render('user/userProfile')
+  },
+  changeProductQuantity:async(req,res)=>{
+    console.log(req, 'hai')
+    console.log(req.body.cartId,req.body.prodId,req.body.count,req.body.quantity,'changeproductquantity 1')
+    // let count = parseInt(details.count)
+    if(req.body.count == -1 && req.body.quantity == 1){
+      await cartModel.updateOne({_id:req.body.cartId},
+        {
+          $pull:{products:{productId:req.body.prodId}}
+        })
+        res.json({removeProduct:true})
+    }
+    else{
+      await cartModel.updateOne(
+        { _id: req.body.cartId, "products.productId": req.body.prodId },
+        { $inc: { "products.$.quantity": req.body.count } }
+      );
+      res.json({status:true})
+      console.log('success')
+    }
+    
   }
+  
 };
+
