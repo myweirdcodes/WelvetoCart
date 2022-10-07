@@ -287,7 +287,7 @@ module.exports = {
     res.render('user/userProfile')
   },
   changeProductQuantity:async(req,res)=>{
-    console.log(req, 'hai')
+    
     console.log(req.body.cartId,req.body.prodId,req.body.count,req.body.quantity,'changeproductquantity 1')
     // let count = parseInt(details.count)
     if(req.body.count == -1 && req.body.quantity == 1){
@@ -306,6 +306,14 @@ module.exports = {
       console.log('success')
     }
     
+  },
+  removeCartItem:async(req,res)=>{
+    console.log(req, 'hai')
+    await cartModel.updateOne({_id:req.body.cartId},
+      {
+        $pull:{products:{productId:req.body.prodId}}
+      })
+      res.json({removeItem:true})
   }
   
 };

@@ -81,22 +81,5 @@
 
 
 
-	// function removeCartProduct(cartId,prodId){
-	// 	$.ajax({
-	// 		url:'/removeCartItem',
-	// 		data:{
-	// 			cartId:cartId,
-	// 			prodId:prodId
-	// 		},
-	// 		method:'post',
-	// 		success:(response)=>{
-	// 			if(response.removeCartProduct){
-	// 				alert('product removed from the cart');
-	// 			}
-	// 			else{
-	// 				alert('failed to remove the product')
-	// 			}
-	// 		}
-	// 	})
-	// }
+	
 

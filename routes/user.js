@@ -25,7 +25,7 @@ router.get('/showCart/:id',session.userSession,usercontrol.getCart)
 
 router.post('/changeProductQuantity',usercontrol.changeProductQuantity)
 
-//router.post('/removeCartItem', usercontrol.removeCartItem)
+router.post('/removeCartItem', usercontrol.removeCartItem)
 
 router.get('/addToWishlist/:id',session.userSession,usercontrol.addToWishlist)
 
