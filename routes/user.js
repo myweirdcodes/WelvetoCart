@@ -35,6 +35,9 @@ router.get('/logout',usercontrol.logout)
 
 router.get('/productDetails/:id',session.userSession,usercontrol.productDetails)
 
+router.get('/checkout',(req,res)=>{
+    res.render('user/checkout')
+})
 //router.post('/otpVerify',usercontrol.verifyOtp)
 
 // router.get('/otp',(req,res)=>{

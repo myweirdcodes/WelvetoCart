@@ -1,5 +1,6 @@
 <section>
-  <div class="container">
+  <div class="container mb-5">
+	{{#if cartData.products}}
     <table class="table mt-5">
       <thead>
         <tr>
@@ -13,6 +14,7 @@
 
       </thead>
       <tbody>
+		
         {{#each cartData.products}}
           <tr>
             <td><img
@@ -23,25 +25,39 @@
             <td>{{this.productId.name}}</td>
             <td>{{this.productId.price}}</td>
             <td>
-				<button class="cart-item-count btn-danger px-2 mr-3" onclick="changeQuantity('{{../cartData._id}}','{{this.productId._id}}',-1)">-</button>
+				<button class="cart-item-count btn-danger px-2 mr-3" onclick="changeQuantity('{{../cartData._id}}','{{this.productId._id}}',-1,'{{@index}}')">-</button>
 				<span id="{{this.productId._id}}">{{this.quantity}}</span>
-									<button class="cart-item-count btn-danger px-2 ml-3" onclick="changeQuantity('{{../cartData._id}}','{{this.productId._id}}',1)">+</button>
+									<button class="cart-item-count btn-danger px-2 ml-3" onclick="changeQuantity('{{../cartData._id}}','{{this.productId._id}}',1,'{{@index}}')">+</button>
 			</td>
             <td>
 				{{!-- <button onclick="removeCartProduct('{{../cartData._id}}','{{this.productId._id}}')" class="btn btn-danger">Remove</button> --}}
               <a href="" onclick="removeCartProduct('{{../cartData._id}}','{{this.productId._id}}')" class="btn btn-danger">Remove</a>
             </td>
-            <td class="column-5">{{this.productId.price}}</td>
+            <td class="column-5" id="total{{this.productId._id}}"><h5></h5></td>
           </tr>
         {{/each}}
       </tbody>
     </table>
+	<hr>
+	<div class=" pr-5 mb-5 mt-3">
+	
+    <span class="badge badge-light border rounded-0 border-secondary float-right ml-2 mr-5" id="cartTotal" style="font-size: 25px;"><p></p></span>
+	<h4 class="float-right pt-2">Total Amount:</h4>	<br> <br> 
+	<a href="" class="btn btn-success float-right mx-5 px-5 my-4">Place Order</a>
+	</div>
+	{{else}}
+	<div class="text-center"><h1 class="my-5">Please add items to Cart</h1></div>
+	
+	{{/if}}
+	<hr>
+	
   </div>
 </section>
 
 
 <script>
-	function changeQuantity(cartId, prodId, count){
+	function changeQuantity(cartId, prodId, count, index){
+		
 		
 		let quantity = parseInt(document.getElementById(prodId).innerHTML)
 		$.ajax({
@@ -50,16 +66,26 @@
 				cartId:cartId,
 				prodId:prodId,
 				count:count,
-				quantity:quantity
+				quantity:quantity,
+				index:index
 			},
 			method:'post',
 			success:(response)=>{
+				console.log(response)
 				if(response.removeProduct){
+					console.log(response,'changeproductquantity ajax cart.hbs 1')
 					alert('product removed from the cart')
 					location.reload()
+					document.getElementById('cartTotal').innerHTML=response.totalAmount
+					
+					
 				}
 				else{
+					console.log(response,'changeproductquantity ajax cart.hbs 1')
+					console.log('total'+prodId)
 					document.getElementById(prodId).innerHTML=quantity+count
+					document.getElementById('total'+prodId).innerHTML=response.price
+					document.getElementById('cartTotal').innerHTML=response.totalAmount
 				}
 			}
 		})

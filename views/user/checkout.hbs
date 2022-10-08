@@ -1,0 +1,260 @@
+<!--Main layout-->
+<main class="mt-5 pt-4">
+  <div class="container wow fadeIn">
+
+    <!-- Heading -->
+    <h2 class="my-5 h2 text-center">Checkout form</h2>
+    {{!-- cards to select address --}}
+    <h2 class="pb-3"> Select Address</h2>
+    <div class="row">
+      {{#each addressData}}
+      <div class="card pl-3 pt-1 pb-1 m-1" style="width: 18rem;">
+        <div class="card-body">
+          <div class="form-check">
+            <input type="radio" onclick="billingAddress('{{this._id}}')" class="form-check-input" id="radio1" name="optradio" value="" >
+            <label class="form-check-label" for="radio1"></label>
+          </div>
+          <h5 class="card-title">{{this.firstName}} {{this.lastName}}</h5>
+          <h6 class="card-subtitle mb-1 text-muted">ph: {{this.phoneNumber}}</h6>
+          <p class="card-text">address: {{this.address}}</p>
+          <p class="card-text">zip: {{this.pincode}}</p>
+          {{!-- <a href="/userDetails" class="btn btn-primary mt-3">Manage</a> --}}
+          {{!-- <a href="#" class="card-link">Another link</a> --}}
+        </div>
+      </div>
+      {{/each}}
+
+      {{!-- <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <div class="form-check">
+            <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1" checked>Option 1
+            <label class="form-check-label" for="radio1"></label>
+          </div>
+          <h5 class="card-title">Address 1</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+            card's content.</p>
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div> --}}
+    </div>
+    <a href="/addAddress" class="btn btn-outline-success mt-4 mr-2">Add New Address</a>
+    <a href="/userDetails" class="btn btn-outline-success mt-4">Manage Addresses</a>
+    <!--Grid row-->
+    <div class="row pt-5">
+
+      <!--Grid column-->
+      <div class="col-md-8 mb-4">
+        <h2 class="pb-4">Billing Address</h2>
+
+        <!--Card-->
+        <div class="card">
+
+          <!--Card content-->
+          <form class="card-body">
+            <form method="post" action="">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="inputAddress2">First Name</label>
+                  <input type="text" name="firstName" class="form-control" id="firstName"
+                    value="{{this.firstName}}">
+                </div>
+                <div class="form-group">
+                  <label for="inputAddress2">Last Name</label>
+                  <input type="text" name="lastName" class="form-control" id="lastName" value="{{this.lastName}}">
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputEmail4">Email</label>
+                <input type="email" name="email" class="form-control" id="email" value="{{this.email}}">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputEmail4">Phone number</label>
+                <input type="number" name="phoneNumber" class="form-control" id="phoneNumber"
+                  value="{{this.phoneNumber}}">
+              </div>
+              <div class="form-group">
+                <label for="inputAddress2">Address</label>
+                <input type="text" name="address" class="form-control" id="address" value="{{this.address}}">
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputCity">City</label>
+                  <input type="text" name="city" class="form-control" id="city" value="{{this.city}}">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputState">State</label>
+                  {{!-- <select id="inputState" class="form-control">
+                    <option selected>Choose...</option>
+                    <option value="Kerala">kerala</option>
+                  </select> --}}
+                  <input type="text" name="state" class="form-control" id="state" value="{{this.state}}">
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="inputZip">Zip</label>
+                  <input type="text" name="pincode" class="form-control" id="pincode" value="{{this.pincode}}">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="inputCity">Landmark</label>
+                  <input type="text" name="landmark" class="form-control" id="landmark" value="{{this.landmark}}">
+                </div>
+              </div>
+              {{!-- <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="gridCheck">
+                  <label class="form-check-label" for="gridCheck">
+                    Check me out
+                  </label>
+                </div>
+              </div> --}}
+              
+            </form>
+
+
+
+          </form>
+
+        </div>
+        <!--/.Card-->
+
+      </div>
+      <!--Grid column-->
+
+      <!--Grid column-->
+      <div class="col-md-4 mb-4">
+
+        <!-- Heading -->
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          {{!-- <span class="text-muted">Your cart</span> --}}
+          <h2 class="pb-3">Your Cart</h2>
+          {{!-- <span class="badge badge-secondary badge-pill">3</span> --}}
+        </h4>
+
+        <!-- Cart -->
+        <ul class="list-group mb-3 z-depth-1">
+          {{#each cartData.products}}
+          <li class="list-group-item d-flex justify-content-between lh-condensed">
+            <div>
+              <h6 class="my-0">{{this.productId.name}}</h6>
+              <small class="text-muted">x{{this.quantity}}</small>
+            </div>
+            <span class="text-muted"{{this.productId._id}}price>₹{{total this.productId.amount this.productId.discount this.quantity}}</span>
+          </li>
+          {{/each}}
+          {{!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
+            <div>
+              <h6 class="my-0">Second product</h6>
+              <small class="text-muted">Brief description</small>
+            </div>
+            <span class="text-muted">$8</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-condensed">
+            <div>
+              <h6 class="my-0">Third item</h6>
+              <small class="text-muted">Brief description</small>
+            </div>
+            <span class="text-muted">$5</span>
+          </li> --}}
+          <li class="list-group-item d-flex justify-content-between bg-light">
+            <div class="text-success">
+              <h6 class="my-0">Promo code</h6>
+              <small>EXAMPLECODE</small>
+            </div>
+            <span class="text-success">-₹5</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Total (USD)</span>
+            <strong>₹{{totalAmount}}</strong>
+          </li>
+        </ul>
+        <!-- Cart -->
+
+        <!-- Promo code -->
+        <form class="card p-2">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Promo code" aria-label="Recipient's username"
+              aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Redeem</button>
+            </div>
+          </div>
+        </form>
+        <!-- Promo code -->
+
+
+        {{!-- payment method --}}
+
+        <form action="" id="checkoutForm">
+              <div class="d-flex justify-content-between mt-3 my-3">
+                <div class="keys ms-4">
+                  <h6>Payment method:</h6>
+                </div>
+                <select
+                  class="form-select me-3"
+                  aria-label="Default select example"
+                  name="payment-method"
+                  aria-placeholder="Choose option"
+                  required
+                >
+                  <option value="" disabled selected>Choose option</option>
+                  <option value="Online">Online Payment</option>
+                  <option value="COD">COD</option>
+
+                </select>
+                  </div>
+              <div
+                class="col-12 d-flex flex-column justify-content-center align-items-center mb-4"
+              >
+
+                <button class="btn btn-primary" type="submit">Checkout</button>
+              </div>
+            </form>
+
+      </div>
+      <!--Grid column-->
+
+    </div>
+    <!--Address div-->
+
+
+  </div>
+</main>
+<!--Main layout-->
+
+
+<script>   new WOW().init();</script>
+<!--/.Footer-->
+<script>
+  function billingAddress(addId) {
+    console.log(addId);
+    $.ajax({
+      url: '/billingAddress',
+      data: {
+        address: addId,
+      },
+      method: 'post',
+      success: (res) => {
+        console.log("this is from response",res);
+        
+        document.getElementById("firstName").value = res.address.firstName;
+        document.getElementById("phoneNumber").value = res.address.phoneNumber;
+        document.getElementById("email").value = res.address.email;
+        document.getElementById("address").value = res.address.address;
+        document.getElementById("lastName").value = res.address.lastName;
+        document.getElementById("pincode").value = res.address.pincode;
+        document.getElementById("city").value = res.address.city;
+        document.getElementById("landmark").value = res.address.landmark;
+        document.getElementById("state").value = res.address.state;
+
+      },
+
+      error: (error) => {
+        alert('hierror')
+        console.log(error)
+      },
+    })
+  }
+
+
+</script>

@@ -6,6 +6,7 @@ const productModel = require("../model/productSchema");
 const categoryModel = require("../model/categorySchema");
 const cartModel = require("../model/cartSchema");
 const wishlistModel = require("../model/wishlistSchema")
+const cartFunctions = require("./cartFunctions")
 const bcrypt = require("bcrypt");
 const otp = require("./otp");
 const { response } = require("express");
@@ -144,6 +145,7 @@ module.exports = {
       console.log(req.session.user, "addToCart 2");
       let userCart = await cartModel.findOne({ userId: userId }).lean();
       if (userCart) {
+        
         productExist = await cartModel.findOne({
           userId: userId,
           "products.productId": productId,
@@ -290,19 +292,28 @@ module.exports = {
     
     console.log(req.body.cartId,req.body.prodId,req.body.count,req.body.quantity,'changeproductquantity 1')
     // let count = parseInt(details.count)
+    
     if(req.body.count == -1 && req.body.quantity == 1){
       await cartModel.updateOne({_id:req.body.cartId},
         {
           $pull:{products:{productId:req.body.prodId}}
         })
-        res.json({removeProduct:true})
+        let cartData = await cartModel.findOne({_id:req.body.cartId}).populate("products.productId").lean();
+        // let price = cartData.products[req.body.index].productId.price*cartData.products[req.body.index].quantity
+        let totalAmount = await cartFunctions.totalAmount(cartData)
+        //console.log(price,totalAmount,'changeproductQuantity 2 usercontroler.js')
+        res.json({removeProduct:true,totalAmount})
     }
     else{
       await cartModel.updateOne(
         { _id: req.body.cartId, "products.productId": req.body.prodId },
         { $inc: { "products.$.quantity": req.body.count } }
       );
-      res.json({status:true})
+      let cartData = await cartModel.findOne({_id:req.body.cartId}).populate("products.productId").lean();
+        let price = cartData.products[req.body.index].productId.price*cartData.products[req.body.index].quantity
+        let totalAmount = await cartFunctions.totalAmount(cartData)
+        console.log(price,totalAmount,'changeproductQuantity 3 usercontroler.js')
+      res.json({status:true,price,totalAmount})
       console.log('success')
     }
     
