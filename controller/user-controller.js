@@ -6,6 +6,7 @@ const productModel = require("../model/productSchema");
 const categoryModel = require("../model/categorySchema");
 const cartModel = require("../model/cartSchema");
 const wishlistModel = require("../model/wishlistSchema")
+const addressModel = require("../model/addressSchema")
 const cartFunctions = require("./cartFunctions")
 const bcrypt = require("bcrypt");
 const otp = require("./otp");
@@ -282,11 +283,25 @@ module.exports = {
         cartcount
       });
   },
-  deleteWishlistProduct:async(req,res)=>{
-
-  },
+  
   getUserProfile:async(req,res)=>{
-    res.render('user/userProfile')
+    let cartcount = await getCartCount(req,res);
+   let wishlistcount = await getWishlistCount(req,res)
+   let userDetails = await usersModel.findOne({_id:req.session.user._id}).lean()
+   let addressData = await addressModel.find({userId:req.session.user._id}).lean()
+    res.render('user/userProfile',{inUse:true,user:req.session.user,cartcount,
+      wishlistcount,userDetails,addressData})
+  },
+  addAddress:async(req,res)=>{
+    let cartcount = await getCartCount(req,res);
+   let wishlistcount = await getWishlistCount(req,res)
+    res.render('user/addAddress',{inUse:true,user:req.session.user,cartcount,
+      wishlistcount})
+  },
+  postaddAddress:async(req,res)=>{
+    console.log(req.body,'postaddaddress 1')
+    await addressModel.create(req.body)
+    res.redirect('/getUserProfile/:id')
   },
   changeProductQuantity:async(req,res)=>{
     
@@ -325,6 +340,27 @@ module.exports = {
         $pull:{products:{productId:req.body.prodId}}
       })
       res.json({removeItem:true})
+  },
+  checkOut:async(req,res)=>{
+    let cartcount = await getCartCount(req,res);
+   let wishlistcount = await getWishlistCount(req,res)
+   let addressData = await addressModel.find({userId:req.session.user._id}).lean()
+   let cartData = await cartModel.findOne({userId:req.session.user._id}).populate("products.productId").lean()
+   let totalAmount = await cartFunctions.totalAmount(cartData);
+    res.render('user/checkOut',{inUse:true,user:req.session.user,cartcount,
+      wishlistcount,addressData,cartData,totalAmount})
+  },
+  billingAddress:async(req,res)=>{
+    let address = await addressModel.findOne({_id:req.body.address}).lean()
+    res.json({message:"this is succesfully",  address });
+  },
+  removeWishlistItem:async(req,res)=>{
+    console.log(req,'remove wishlist item 1')
+    await wishlistModel.updateOne({_id:req.body.wishlistId},
+      {
+        $pull:{products:{productId:req.body.prodId}}
+      })
+      res.json({removeWishlistItem:true})
   }
   
 };

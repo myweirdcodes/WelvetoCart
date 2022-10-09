@@ -14,11 +14,11 @@
 						<a href="#" class="flex-c-m trans-04 p-lr-25">
 							Help & FAQs
 						</a>
-
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
+                      {{#if user}}
+						<a href="/getUserProfile/{{user._id}}" class="flex-c-m trans-04 p-lr-25">
 							My Account
 						</a>
-						
+						{{/if}}
 
 						<a href="#" class="flex-c-m trans-04 p-lr-25">
 							EN

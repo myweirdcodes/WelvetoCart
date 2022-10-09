@@ -12,7 +12,15 @@ router.get('/loginPage',usercontrol.getLoginPage)
 
 router.post('/login',usercontrol.doLogin)
 
-router.get('/getUserProfile',usercontrol.getUserProfile)
+router.get('/getUserProfile/:id',usercontrol.getUserProfile)
+
+router.get('/addAddress/:id',usercontrol.addAddress)
+
+router.post('/postaddAddress/:id',usercontrol.postaddAddress)
+
+router.get('/checkOut/:id',usercontrol.checkOut)
+
+router.post('/billingAddress',usercontrol.billingAddress)
 
 router.get('/shop',usercontrol.getAllProducts)
 
@@ -27,17 +35,18 @@ router.post('/changeProductQuantity',usercontrol.changeProductQuantity)
 
 router.post('/removeCartItem', usercontrol.removeCartItem)
 
+
 router.get('/addToWishlist/:id',session.userSession,usercontrol.addToWishlist)
 
 router.get('/getWishlist/:id',session.userSession,usercontrol.getWishlist)
+
+router.post('/removeWishlistItem',session.userSession,usercontrol.removeWishlistItem)
 
 router.get('/logout',usercontrol.logout)
 
 router.get('/productDetails/:id',session.userSession,usercontrol.productDetails)
 
-router.get('/checkout',(req,res)=>{
-    res.render('user/checkout')
-})
+
 //router.post('/otpVerify',usercontrol.verifyOtp)
 
 // router.get('/otp',(req,res)=>{

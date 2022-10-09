@@ -25,7 +25,7 @@
 				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
 					<div class="m-l-25 m-r--38 m-lr-0-xl">
 						<div class="wrap-table-shopping-cart">
-                            {{#if wishlistData}}
+                            {{#if wishlistData.products}}
 							<table class="table-shopping-cart">
 								<tr class="table_head">
 									<th class="column-1">Product</th>
@@ -44,6 +44,7 @@
 									</td>
 									<td class="column-2">{{this.productId.name}}</td>
 									<td class="column-3">{{this.productId.price}}</td>
+									<td><a href="" onclick="removeWishlistProduct('{{../wishlistData._id}}','{{this.productId._id}}')" class="btn btn-danger">Remove</a></td>
 									{{!-- <td class="column-4">
 										<div class="wrap-num-product flex-w m-l-auto m-r-0">
 											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
@@ -205,3 +206,27 @@
 	
 
 	
+<script>
+
+function removeWishlistProduct(wishlistId,prodId){
+		console.log(wishlistId, prodId, 'remove wishlist product wishlist.hbs page')
+		$.ajax({
+			url:'/removeWishlistItem',
+			data:{
+				wishlistId:wishlistId,
+				prodId:prodId
+			},
+			method:'post',
+			success:(response)=>{
+				if(response.removeWishlistItem){
+					alert('product removed from the wishlist');
+					location.reload()
+				}
+				else{
+					alert('failed to remove the product')
+				}
+			}
+		})
+	}
+
+</script>
