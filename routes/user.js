@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const usercontrol = require('../controller/user-controller')
 const session = require('../middlewares/session_middleware');
+const ordercontrol = require('../controller/orderController');
 
 /* GET home page. */
 router.get('/signupPage', usercontrol.getSignupPage);
@@ -21,6 +22,10 @@ router.post('/postaddAddress/:id',usercontrol.postaddAddress)
 router.get('/checkOut/:id',usercontrol.checkOut)
 
 router.post('/billingAddress',usercontrol.billingAddress)
+
+router.post('/confirmOrderButton',session.userSession,ordercontrol.confirmOrderButton)
+
+router.get('/renderConfirmation', session.userSession, ordercontrol.confirmationPage) 
 
 router.get('/shop',usercontrol.getAllProducts)
 

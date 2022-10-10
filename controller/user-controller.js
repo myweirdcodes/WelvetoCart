@@ -187,12 +187,20 @@ module.exports = {
       console.log(cartData._id, "getCart ");
       let cartcount = await getCartCount(req,res);
    let wishlistcount = await getWishlistCount(req,res)
+
+
+   let totalAmount = await cartFunctions.totalAmount(cartData)
+   
+
+     
+
       res.render("user/cart", {
         inUse: true,
         cartData,
         user: req.session.user,
       cartcount,
-      wishlistcount
+      wishlistcount,
+      totalAmount
       });
     }
   },
@@ -215,10 +223,10 @@ module.exports = {
   // }
   productDetails: async (req, res) => {
     let productdetails = await productModel
-      .findOne({ _id: req.params.id })
+      .findOne({ _id: req.params.id }).populate("category")
       .lean();
     console.log(productdetails.image[0], "productdetails 1");
-    console.log(productdetails, "brrrrrrrrrrrr");
+    console.log(productdetails.category.category, "brrrrrrrrrrrr");
     let cartcount = await getCartCount(req,res);
    let wishlistcount = await getWishlistCount(req,res)
     res.render("user/productDetails", {
@@ -317,6 +325,9 @@ module.exports = {
         // let price = cartData.products[req.body.index].productId.price*cartData.products[req.body.index].quantity
         let totalAmount = await cartFunctions.totalAmount(cartData)
         //console.log(price,totalAmount,'changeproductQuantity 2 usercontroler.js')
+
+        
+
         res.json({removeProduct:true,totalAmount})
     }
     else{
@@ -328,6 +339,9 @@ module.exports = {
         let price = cartData.products[req.body.index].productId.price*cartData.products[req.body.index].quantity
         let totalAmount = await cartFunctions.totalAmount(cartData)
         console.log(price,totalAmount,'changeproductQuantity 3 usercontroler.js')
+        
+        
+
       res.json({status:true,price,totalAmount})
       console.log('success')
     }
@@ -339,6 +353,9 @@ module.exports = {
       {
         $pull:{products:{productId:req.body.prodId}}
       })
+      let cartData = await cartModel.findOne({_id:req.body.cartId}).populate("products.productId").lean();
+      let totalAmount = await cartFunctions.totalAmount(cartData)
+      
       res.json({removeItem:true})
   },
   checkOut:async(req,res)=>{

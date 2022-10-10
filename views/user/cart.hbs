@@ -46,7 +46,7 @@
 
 			<span class="badge badge-light border rounded-0 border-secondary float-right ml-2 mr-5" id="cartTotal"
 				style="font-size: 25px;">
-				<p></p>
+				<p>₹.{{totalAmount}}</p>
 			</span>
 			<h4 class="float-right pt-2">Total Amount:</h4> <br> <br>
 			<a href="/checkOut/{{cartData.userId}}" class="btn btn-success float-right mx-5 px-5 my-4">Place Order</a>
@@ -104,6 +104,9 @@
 
 	function removeCartProduct(cartId, prodId) {
 		console.log(cartId, prodId, 'remove cart product cart.hbs page')
+
+
+		
 		
 				$.ajax({
 					url: '/removeCartItem',
@@ -114,8 +117,9 @@
 					method: 'post',
 					success: (response) => {
 						if (response.removeItem) {
-							
 							location.reload()
+							alert('one item has been removed')
+							
 						}
 						else {
 							alert('failed to remove the product')
