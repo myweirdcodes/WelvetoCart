@@ -26,6 +26,8 @@ module.exports = {
       paymentMethod: req.body.paymentMethod,
     });
 
+    console.log('orderData', orderData)
+
     totalAmount = await cartFunctions.totalAmount(cartData);
     console.log("totalAmount", totalAmount);
     totalAmounts = totalAmount * 100;
@@ -33,13 +35,14 @@ module.exports = {
       .findOne({ _id: orderData._id })
       .populate("products.productId")
       .lean();
-
+    console.log("orderDataPopulated :", orderDataPopulated)
     req.session.orderData = orderData;
     console.log("orderdata session", req.session);
     if (orderData.paymentMethod == "COD") {
       req.session.orderData = null;
       console.log("hello from cod check in oredercontroller");
       req.session.confirmationData = { orderDataPopulated, totalAmount };
+      await cartModel.deleteOne({userId:req.session.user._id})
       res.json({ status: "COD", totalAmounts, orderData });
     } else if (orderData.paymentMethod == "Online Payment") {
       let orderData = req.session.orderData;
@@ -74,6 +77,7 @@ module.exports = {
         { orderId: req.body["razorData[id]"] },
         { paymentStatus: "success" }
       );
+      await cartModel.deleteOne({userId:req.session.user._id})
       return res.json({ status: "true" });
     } else {
       await orderModel.findOneAndUpdate(

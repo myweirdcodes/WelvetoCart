@@ -160,12 +160,14 @@ module.exports = {
       .populate("products.productId")
       .lean();
     console.log(cartData, "getCart 1");
-    console.log(cartData.products.productId, "getCart ");
-    let cartcount = await getCartCount(req, res);
+    //console.log(cartData.products.productId, "getCart ");
+    
     let wishlistcount = await getWishlistCount(req, res);
-
+    if(cartData){
+    let cartcount = await getCartCount(req, res);
+    
     let totalAmount = await cartFunctions.totalAmount(cartData);
-
+     
     res.render("user/cart", {
       inUse: true,
       cartData,
@@ -174,6 +176,16 @@ module.exports = {
       wishlistcount,
       totalAmount,
     });
+  }
+  else{
+    let cartcount = await getCartCount(req, res);
+    res.render("user/cart", {
+      inUse: true,
+      user: req.session.user,
+      cartcount,
+      wishlistcount,
+    });
+  }
   },
   logout: (req, res) => {
     req.session.user = null;
