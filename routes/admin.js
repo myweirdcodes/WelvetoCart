@@ -19,6 +19,8 @@ const upload = multer({ storage: storage })
 
 
 
+// admin product managment routes
+
 router.get('/addProduct',session.adminSession,admincontrol.addProduct)
 
 router.post('/addProduct',session.adminSession, upload.array('image',3),admincontrol.postAddProduct)
@@ -37,22 +39,37 @@ router.get('/deleteProduct/:id',session.adminSession,admincontrol.deleteProduct)
 
 router.get('/viewProduct',session.adminSession,admincontrol.adminViewProduct)
 
+
+
+
+// admin user managment routes
+
+router.get('/viewUser',session.adminSession,admincontrol.viewUser)
+
+router.get('/blockUnblockUser/:id',session.adminSession,admincontrol.blockUnblockUser)
+
+
+
+// admin login routes
+
 router.get('/', admincontrol.adminLoginPage);
 
 router.post('/adminLogin',admincontrol.adminLogin)
 
 router.get('/adminlogout',admincontrol.adminLogout)
 
-router.get('/signupPage',admincontrol.adminSignupPage)
-
-router.post('/signup',admincontrol.adminSignup)
 
 
+// admin signup routes
+
+//router.get('/signupPage',admincontrol.adminSignupPage)
+
+//router.post('/signup',admincontrol.adminSignup)
 
 
-router.get('/viewUser',session.adminSession,admincontrol.viewUser)
 
-router.get('/blockUnblockUser/:id',session.adminSession,admincontrol.blockUnblockUser)
+
+
 
 
 module.exports = router;

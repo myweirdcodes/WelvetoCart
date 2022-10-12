@@ -202,7 +202,8 @@
             </label>
           </div>
           <div class="pt-5 text-center"> <button type="button" onclick="confirmOrderButton()"
-              class="btn btn-success ">Confirm Order</button> </div>
+              class="btn btn-success " id="confirmOrder">Confirm Order</button> </div>
+              
         </form>
 
         {{!-- <form action="" id="checkoutForm">
@@ -242,6 +243,7 @@
 </main>
 <!--Main layout-->
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
   function billingAddress(addId) {
@@ -311,12 +313,55 @@
           location.replace('/renderConfirmation');
         }
         
-        //if(res.result=='COD'){
-          //console.log("true")
-            //res.send('Thank you for your order')
+        else{
+          console.log("hai from online payment ajax else case",res.razorData)
+        var options = {
+          "key": "rzp_test_aji0qCmQwh2Y4U", // Enter the Key ID generated from the Dashboard
+          "amount": res.razorData.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          "currency": "INR",
+          "name": "Acme Corp",
+          "description": "Test Transaction",
+          "image": "https://example.com/your_logo",
+          "order_id": res.razorData.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+          "handler": function (response) {
+            console.log('hi i am handler to call verifypayment')
+            verifyPayment(response, res.razorData);
+          },
+          "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+          "prefill": {
+            "name": "Gaurav Kumar",
+            "email": "gaurav.kumar@example.com",
+            "contact": "9999999999"
+          },
+          "notes": {
+            "address": "Razorpay Corporate Office"
+          },
+          "theme": {
+            "color": "#3399cc"
+          }
+        };
+        console.log('hi i run after verifypayment', options)
+        var rzp1 = new Razorpay(options);
+        document.getElementById('confirmOrder').onclick = function (e) {
+          console.log('hi i open razorpay paymentt gateway')
+          rzp1.open();
+          
+          e.preventDefault();
+          rzp1.on('payment.failed', function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
 
-            
-        //}
+          });
+
+        }
+        console.log("i cant't find what has gone wrong between this")
+        }
+        
         //location.reload()
       },
 
@@ -324,6 +369,22 @@
         alert('hierror')
         console.log(error)
       },
+    })
+  }
+  function verifyPayment(razorResponse, razorData) {
+    console.log('this is working');
+    $.ajax({
+      url: '/verifyRazorpay',
+      data: {
+        razorResponse,
+        razorData
+      },
+      method: 'post',
+      success: (res) => {
+        if (res.status) {
+          location.replace('/renderConfirmation');
+        }
+      }
     })
   }
 </script>

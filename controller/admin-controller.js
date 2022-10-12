@@ -6,6 +6,7 @@ const adminModel = require('../model/adminSchema')
 const categoryModel = require('../model/categorySchema')
 const productModel = require('../model/productSchema');
 const userModel = require('../model/userSchema')
+const cartModel = require("../model/cartSchema")
 const { response } = require('../app');
 
 
@@ -53,17 +54,15 @@ module.exports = {
        }
     },
     adminViewProduct:async(req,res)=>{
-       if(req.session.adminLoggedIn){
+       
         // console.log(currentadmin,'adminViewProduct 0')
         console.log(req.session.admin,'adminViewproduct 2')
         let productData = await productModel.find().populate('category').lean();
         console.log(productData, 'adminviewproduct 1')
         currentAdmin = req.session.admin
         res.render('admin/view-product',{layout:'admin-layout',admin:true,productData,currentAdmin})
-       }
-       else{
-        res.redirect('/admin')
-       }
+       
+       
     },
     adminLogout:(req,res)=>{
         req.session.admin = null;
@@ -71,13 +70,11 @@ module.exports = {
         res.redirect('/admin')
     },
     addProduct:async(req,res)=>{
-        if(req.session.adminLoggedIn){
+        
             const categorydata = await categoryModel.find().lean()
             res.render('admin/add-product',{layout:"admin-layout",admin:true,categorydata,currentAdmin:req.session.admin})
-        }
-        else{
-            res.redirect('/admin')
-        }
+        
+        
     },
     postAddProduct:async(req,res)=>{
         console.log(req.body,'postaddproduct 0')
@@ -96,12 +93,10 @@ module.exports = {
         }
     },
     addCategory:(req,res)=>{
-        if(req.session.adminLoggedIn){
+        
             res.render('admin/add-category',{layout:"admin-layout",admin:true,currentAdmin:req.session.admin})
-        }
-        else{
-            res.redirect('/admin')
-        }
+        
+        
     },
     postAddCategory: async (req,res)=>{
         console.log(req.body.category,'postAddcategory 1')
@@ -115,16 +110,14 @@ module.exports = {
        }
     },
     updateProduct:async(req,res)=>{
-        if(req.session.adminLoggedIn){
+        
             let productId = req.params.id
             let productData = await productModel.findOne({_id:productId}).populate('category').lean()
             let categoryData = await categoryModel.find().lean()
             console.log(categoryData,'update product 1')
             res.render('admin/update-product',{layout:"admin-layout",admin:true,currentAdmin:req.session.admin,productData,categoryData})
-        }
-        else{
-            res.redirect('/admin')
-        }
+        
+        
     },
     postUpdateProduct:async(req,res)=>{
         console.log(req.files[0],'postUpdate Product 1')
@@ -143,7 +136,9 @@ module.exports = {
         res.render('admin/view-user',{layout:'admin-layout',admin:true,userData,currentAdmin:req.session.admin});
     },
     blockUnblockUser:async(req,res)=>{
-        let userData = userModel.findOne({_id:req.params.id}).lean()
+        
+        let userData = await userModel.findOne({_id:req.params.id}).lean()
+        
         if(userData.status){
             await userModel.updateOne({_id:req.params.id},{$set:{status:false}})
         }
@@ -154,6 +149,7 @@ module.exports = {
 
     },
     deleteProduct:async(req,res)=>{
+        
         await productModel.deleteOne({_id:req.params.id})
         res.redirect('/admin/viewProduct')
     }
