@@ -8,15 +8,22 @@
             <form
               action="/admin/addCategory"
               method="POST"
+              id="addEditForm"
             >
 
               <label for="">Category</label>
               <input type="text" name="category" id="categoryName" class="form-control" value="" />
 
               <button type="submit" class="btn btn-success mt-4">Submit</button>
+              <button type="submit"  id="editbutton" class="btn btn-success mt-4">Edit</button>
             </form>
           </div>
         </div>
+
+
+        
+       
+
       </div>
     </section>
 
@@ -48,7 +55,7 @@
                                             <th scope="row">{{inc @index}}</th>
                                             <td>{{this.category}}</td>
                                             {{!-- <td>{{this.subCategory}}</td> --}}
-                                            <td><a href="" onclick="editCategory('{{this._id}}')"><i class="gd-pencil icon-text"></i></a></td>
+                                            <td><a href="" class="btn" onclick="editCategory('{{this._id}}')"><i class="gd-pencil icon-text"></i></a></td>
                                             <td><a href="" onclick="deleteCategory('{{this._id}}')"><i class="gd-trash icon-text"></i></a> </td>
                                             {{!-- <td><a href="/admin/edit/{{this._id}}"><i class="bi bi-pencil-square"></i></a></td>
                                             {{#if this.block}}
@@ -86,7 +93,7 @@ function deleteCategory(categoryId){
      success:(response)=>{
        if(response.categoryDeleted){
          alert('category deleted')
-         location.reload();
+         
        }else{
          alert('failed to delete category')
        }
@@ -94,6 +101,27 @@ function deleteCategory(categoryId){
 
    })
  }
+
+
+
+
+async function editCategory(categoryId){
+  event.preventDefault();
+  $.ajax({
+   url:'/admin/editCategory/'+categoryId,
+   
+   method:'get',
+   success(res){
+     
+       document.getElementById("categoryName").value = res.category.category
+        $('#editbutton').click(function(categoryId){
+           $('#addEditForm').attr('action','/admin/postEditCategory/'+res.category._id)
+           
+       })
+       
+   }
+  })
+}
 
 
  

@@ -114,10 +114,17 @@ module.exports = {
         await categoryModel.deleteOne({_id:req.body.categoryId})
         res.json({categoryDeleted:true})
     },
-    // editCategory:async(req,res)=>{
-    //     let category = categoryModel.findOne({_id:req.body.categoryId}).lean()
-    //     res.json(category)
-    // },
+    editCategory:async(req,res)=>{
+        let category = await categoryModel.findOne({_id:req.params.id}).lean()
+        console.log(category,'category 1')
+        res.json({category})
+    },
+    postEditCategory:async(req,res)=>{
+        await categoryModel.updateOne({_id:req.params.id},{
+            $set:{category:req.body.category}
+        })
+        res.redirect('/admin/addCategory')
+    },
     updateProduct:async(req,res)=>{
         
             let productId = req.params.id

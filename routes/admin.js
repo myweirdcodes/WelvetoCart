@@ -26,8 +26,9 @@ router.post('/addCategory',session.adminSession,admincontrol.postAddCategory)
 
 router.post('/deleteCategory',session.adminSession,admincontrol.deleteCategory)
 
-// router.post('/editCategory',session.adminSession,admincontrol.editCategory)
+router.get('/editCategory/:id',session.adminSession,admincontrol.editCategory)
 
+router.post('/postEditCategory/:id',session.adminSession,admincontrol.postEditCategory)
 
 // admin product managment routes
 

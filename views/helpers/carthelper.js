@@ -104,17 +104,17 @@
 
 
 
-// function editCategory(categoryId){
-//   $.ajax({
-//    url:'/admin/editCategory',
-//    data:{
-//      categoryId:categoryId
-//    },
-//    method:'post',
-//    success(res){
-//      if(res){
-//        console.log(res)
-//      }
-//    }
-//   })
-// }
+function editCategory(categoryId){
+  $.ajax({
+   url:'/admin/editCategory',
+   data:{
+     categoryId:categoryId
+   },
+   method:'post',
+   success(res){
+     if(res){
+       console.log(res)
+     }
+   }
+  })
+}
