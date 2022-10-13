@@ -53,15 +53,23 @@ module.exports = {
       return res.send("user already existt");
     }
     const newuser = await usersModel.create(req.body);
-
-    otp.doSms(newuser);
+    console.log('vili vannu')
+    //const phone = newuser.phone
+    //console.log(phone,'adduser 4')
+    //otp.doSms(phone);
     const id = newuser._id;
+    
     console.log(id, "adduser3");
-    req.session.user = newuser;
+    //req.session.user = newuser;
 
-    req.session.loggedIn = true;
-    res.redirect("/shop");
-    //res.render('user/otp')
+    req.session.user = newuser
+    req.session.phone = req.body.phone
+
+    otp.sendOtp(req.body.phone)
+
+    //req.session.loggedIn = true;
+    //res.redirect("/shop");
+    res.render('user/otp',{id})
   },
   doLogin: async (req, res) => {
     console.log(req.body, "doLogin 1");
@@ -192,7 +200,7 @@ module.exports = {
     req.session.loggedIn = false;
     res.redirect("/loginPage");
   },
-  // verifyOtp: async(req,res)=>{
+  // otpVerify: async(req,res,next)=>{
   //     const userdata = await usersModel.findOne({_id:req.params.id}).lean();
   //     const otps = req.body.otp
   //     const verification = await otp.otpVerify(otps,userdata)
@@ -203,7 +211,25 @@ module.exports = {
   //     else{
   //         res.redirect('/signupPage')
   //     }
-  // }
+  // },
+  post_Otp:function (req, res, next) {
+    console.log(req.body)
+    otp.verifyOtp(req.session.phone, req.body.otp).then((response) => {
+      console.log(response)
+  
+      console.log(req.session.phone, "sessionbody")
+      if (response) {
+  
+        req.session.loggedIn=true
+        // User.findOneAndUpdate({ _id: req.session.userId }, { $set: { otpVerified: true } })
+        res.redirect('/shop')
+      }
+      else {
+        res.redirect('/signupPage')
+      }
+  
+    })
+  },
   productDetails: async (req, res) => {
     let productdetails = await productModel
       .findOne({ _id: req.params.id })

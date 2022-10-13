@@ -4,9 +4,11 @@
 
     <!-- Heading -->
     <h2 class="my-5 h2 text-center">Checkout form</h2>
+    {{#if addressData}}
     {{!-- cards to select address --}}
     <h2 class="pb-3"> Select Address</h2>
     <div class="row">
+      
       {{#each addressData}}
       <div class="card pl-3 pt-1 pb-1 m-1" style="width: 18rem;">
         <div class="card-body">
@@ -23,7 +25,7 @@
         </div>
       </div>
       {{/each}}
-
+      
       {{!-- <div class="card" style="width: 18rem;">
         <div class="card-body">
           <div class="form-check">
@@ -120,6 +122,10 @@
 
       </div>
       <!--Grid column-->
+      {{else}}
+      <h1>Please add an address to place your order</h1>
+      <a href="/addAddress/{{user._id}}" class="btn btn-outline-success mt-4 mr-2">Add New Address</a>
+      {{/if}}
 
       <!--Grid column-->
       <div class="col-md-4 mb-4">
