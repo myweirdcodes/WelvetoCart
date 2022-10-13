@@ -44,7 +44,16 @@
 									</td>
 									<td class="column-2">{{this.productId.name}}</td>
 									<td class="column-3">{{this.productId.price}}</td>
-									<td><a href="" onclick="removeWishlistProduct('{{../wishlistData._id}}','{{this.productId._id}}')" class="btn btn-danger">Remove</a></td>
+									<td>
+										<a
+                  href="/productDetails/{{this.productId._id}}"
+                  class="btn btn-sm btn-primary mb-3"
+                >
+ 
+ 
+<img style="width: 20px; height:20px ;" src="/user/img/viewProduct.jpg" alt=""></a>
+									<a href="" onclick="removeWishlistProduct('{{../wishlistData._id}}','{{this.productId._id}}')" class="mx-3"> <i class="gd-trash icon-text"></i></a>
+									<a href="" onclick="addToCart('{{this.productId._id}}')"><i class="zmdi zmdi-shopping-cart"></i></a></td>
 									{{!-- <td class="column-4">
 										<div class="wrap-num-product flex-w m-l-auto m-r-0">
 											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">

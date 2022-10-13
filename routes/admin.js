@@ -18,6 +18,16 @@ const upload = multer({ storage: storage })
 /* GET users listing. */
 
 
+// admin category managment routes
+
+router.get('/addCategory',session.adminSession,admincontrol.addCategory)
+
+router.post('/addCategory',session.adminSession,admincontrol.postAddCategory)
+
+router.post('/deleteCategory',session.adminSession,admincontrol.deleteCategory)
+
+// router.post('/editCategory',session.adminSession,admincontrol.editCategory)
+
 
 // admin product managment routes
 
@@ -25,9 +35,6 @@ router.get('/addProduct',session.adminSession,admincontrol.addProduct)
 
 router.post('/addProduct',session.adminSession, upload.array('image',3),admincontrol.postAddProduct)
 
-router.get('/addCategory',session.adminSession,admincontrol.addCategory)
-
-router.post('/addCategory',session.adminSession,admincontrol.postAddCategory)
 
 router.get('/viewProduct',session.adminSession,admincontrol.adminViewProduct)
 

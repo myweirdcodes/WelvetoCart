@@ -92,9 +92,10 @@ module.exports = {
             res.redirect('/admin/viewProduct')
         }
     },
-    addCategory:(req,res)=>{
-        
-            res.render('admin/add-category',{layout:"admin-layout",admin:true,currentAdmin:req.session.admin})
+    addCategory:async(req,res)=>{
+            let categoryData = await categoryModel.find().lean()
+            console.log(categoryData,"hi i am cateogorydata id")
+            res.render('admin/add-category',{layout:"admin-layout",admin:true,currentAdmin:req.session.admin,categoryData})
         
         
     },
@@ -106,9 +107,17 @@ module.exports = {
        }
        else{
          await categoryModel.create(req.body)
-         res.redirect("/admin/viewProduct")
+         res.redirect("/admin/addCategory")
        }
     },
+    deleteCategory:async(req,res)=>{
+        await categoryModel.deleteOne({_id:req.body.categoryId})
+        res.json({categoryDeleted:true})
+    },
+    // editCategory:async(req,res)=>{
+    //     let category = categoryModel.findOne({_id:req.body.categoryId}).lean()
+    //     res.json(category)
+    // },
     updateProduct:async(req,res)=>{
         
             let productId = req.params.id

@@ -209,8 +209,8 @@ module.exports = {
       .findOne({ _id: req.params.id })
       .populate("category")
       .lean();
-    console.log(productdetails.image[0], "productdetails 1");
-    console.log(productdetails.category.category, "brrrrrrrrrrrr");
+    // console.log(productdetails.image[0], "productdetails 1");
+    // console.log(productdetails.category.category, "brrrrrrrrrrrr");
     let cartcount = await getCartCount(req, res);
     let wishlistcount = await getWishlistCount(req, res);
     res.render("user/productDetails", {

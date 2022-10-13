@@ -80,6 +80,41 @@
 
 
 
-
+// function editCategory(categoryId){
+//   console.log('vili kettu')
+//   $.ajax({
+//     url:'/admin/editCategory',
+//     data:{
+//     categoryId:categoryId,
+//   },
+//   method:'post',
+//   success:(res){
+//     if(res){
+//       document.getElementById('categoryName').value = res.category.category
+//     }
+//   }
+//   })
+  
+//  }  
 	
 
+// document.getElementById('categoryName').value = res.category.category
+
+
+
+
+
+// function editCategory(categoryId){
+//   $.ajax({
+//    url:'/admin/editCategory',
+//    data:{
+//      categoryId:categoryId
+//    },
+//    method:'post',
+//    success(res){
+//      if(res){
+//        console.log(res)
+//      }
+//    }
+//   })
+// }

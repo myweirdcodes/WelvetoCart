@@ -31,8 +31,9 @@
 					<td>
 						{{!-- <button onclick="removeCartProduct('{{../cartData._id}}','{{this.productId._id}}')"
 							class="btn btn-danger">Remove</button> --}}
-						<a href="" onclick="removeCartProduct('{{../cartData._id}}','{{this.productId._id}}')"
-							class="btn btn-danger">Remove</a>
+						{{!-- <a href="" onclick="removeCartProduct('{{../cartData._id}}','{{this.productId._id}}')"
+							class="btn btn-danger">Remove</a> --}}
+							<a href="" onclick="removeCartProduct('{{../cartData._id}}','{{this.productId._id}}')" class=""> <i class="gd-trash icon-text"></i></a>
 					</td>
 					<td class="column-5" id="total{{this.productId._id}}">
 						<h5 style="font-size: 25px;">₹.{{total this.productId.price this.quantity}}</h5>
