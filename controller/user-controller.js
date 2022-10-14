@@ -146,7 +146,7 @@ module.exports = {
           { userId: userId, "products.productId": productId },
           { $inc: { "products.$.quantity": 1 } }
         );
-        // res.json({status:true})
+        res.json({quantityIncrement:true})
       } else {
         await cartModel.findOneAndUpdate(
           { userId: userId },
@@ -212,23 +212,25 @@ module.exports = {
   //         res.redirect('/signupPage')
   //     }
   // },
-  post_Otp:function (req, res, next) {
+  post_Otp:async function(req, res, next){
     console.log(req.body)
-    otp.verifyOtp(req.session.phone, req.body.otp).then((response) => {
+   let response =await otp.verifyOtp(req.session.phone, req.body.otp)
       console.log(response)
   
       console.log(req.session.phone, "sessionbody")
-      if (response) {
+      if (response.valid) {
   
         req.session.loggedIn=true
         // User.findOneAndUpdate({ _id: req.session.userId }, { $set: { otpVerified: true } })
         res.redirect('/shop')
       }
       else {
+        await usersModel.deleteOne({_id:req.session.user._id})
+        req.session.user = null;
         res.redirect('/signupPage')
       }
   
-    })
+    
   },
   productDetails: async (req, res) => {
     let productdetails = await productModel

@@ -182,3 +182,59 @@
     })
   }
 </script>
+
+
+
+
+
+
+
+{{!-- SWAL FOR CONFIRMATION --}}
+
+
+Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+
+
+
+ }
+	}
+	)
+
+
+
+{{!-- SWAL FOR DISPLAY --}}
+
+  Swal.fire('Hooray!', 'Product removed successfully',
+                  'success')
+
+
+							 setTimeout(()=>{
+              location.reload()
+            },2000)
+
+
+
+
+             sid: 'VEfbcdf3027756407fed122c43abc99f5b',
+  serviceSid: 'VAfd98a1b8c98a8c29ad92bfd49fcece58',
+  accountSid: 'AC29e682715b21fa69d2047af579936a8f',
+  to: '+919048610194',
+  channel: 'sms',
+  status: 'pending',
+  valid: false,
+  amount: null,
+  payee: null,
+  dateCreated: 2022-10-14T09:08:08.000Z,
+  dateUpdated: 2022-10-14T09:08:28.000Z,
+  snaAttemptsErrorCodes: undefined
+}
