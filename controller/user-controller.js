@@ -200,18 +200,7 @@ module.exports = {
     req.session.loggedIn = false;
     res.redirect("/loginPage");
   },
-  // otpVerify: async(req,res,next)=>{
-  //     const userdata = await usersModel.findOne({_id:req.params.id}).lean();
-  //     const otps = req.body.otp
-  //     const verification = await otp.otpVerify(otps,userdata)
-  //     if(verification){
-  //         req.session.loggedIn= true;
-  //         res.redirect('/shop')
-  //     }
-  //     else{
-  //         res.redirect('/signupPage')
-  //     }
-  // },
+ 
   post_Otp:async function(req, res, next){
     console.log(req.body)
    let response =await otp.verifyOtp(req.session.phone, req.body.otp)
@@ -221,7 +210,7 @@ module.exports = {
       if (response.valid) {
   
         req.session.loggedIn=true
-        // User.findOneAndUpdate({ _id: req.session.userId }, { $set: { otpVerified: true } })
+        
         res.redirect('/shop')
       }
       else {

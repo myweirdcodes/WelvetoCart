@@ -43,6 +43,8 @@ module.exports = {
       console.log("hello from cod check in oredercontroller");
       req.session.confirmationData = { orderDataPopulated, totalAmount };
       await cartModel.deleteOne({userId:req.session.user._id})
+      await orderModel.findOneAndUpdate({_id:orderData._id},
+        {status:'placed'})
       res.json({ status: "COD", totalAmounts, orderData });
     } else if (orderData.paymentMethod == "Online Payment") {
       let orderData = req.session.orderData;
@@ -75,14 +77,14 @@ module.exports = {
     if (success) {
       await orderModel.findOneAndUpdate(
         { orderId: req.body["razorData[id]"] },
-        { paymentStatus: "success" }
+        { status: "placed" }
       );
       await cartModel.deleteOne({userId:req.session.user._id})
       return res.json({ status: "true" });
     } else {
       await orderModel.findOneAndUpdate(
         { orderId: req.body["razorData[id]"] },
-        { paymentStatus: "failed" }
+        { status: "failed" }
       );
       return res.json({ status: "failed" });
     }

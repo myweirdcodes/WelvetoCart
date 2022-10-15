@@ -1,4 +1,5 @@
 function addToCart(proId){
+   event.preventDefault();
     $.ajax({
        url:'/cart/'+proId,
        method:'get',

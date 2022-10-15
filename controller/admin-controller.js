@@ -8,6 +8,9 @@ const productModel = require('../model/productSchema');
 const userModel = require('../model/userSchema')
 const cartModel = require("../model/cartSchema")
 const { response } = require('../app');
+const fs = require('fs')
+const path = require('path')
+
 
 
 module.exports = {
@@ -118,6 +121,7 @@ module.exports = {
         let category = await categoryModel.findOne({_id:req.params.id}).lean()
         console.log(category,'category 1')
         res.json({category})
+
     },
     postEditCategory:async(req,res)=>{
         await categoryModel.updateOne({_id:req.params.id},{
@@ -138,6 +142,8 @@ module.exports = {
     postUpdateProduct:async(req,res)=>{
         console.log(req.files[0],'postUpdate Product 1')
         if(req.files[0]){
+        let imagepat = await productModel.findOne({_id:req.params.id},{image:1,_id:0}).lean();
+        imagepat.image.map((i)=> fs.unlinkSync(path.join(__dirname,'..','public','product_uploads',i)))
         const arrImages = req.files.map((value)=>value.filename)
         req.body.image = arrImages
        await productModel.updateOne({_id:req.params.id},{$set:{name:req.body.name,brandName:req.body.brandName,category:req.body.category,description:req.body.description,stock:req.body.stock,price:req.body.price,image:req.body.image}})
@@ -165,7 +171,8 @@ module.exports = {
 
     },
     deleteProduct:async(req,res)=>{
-        
+        let imagepat = await productModel.findOne({_id:req.params.id},{image:1,_id:0}).lean();
+        imagepat.image.map((i)=> fs.unlinkSync(path.join(__dirname,'..','public','product_uploads',i)))
         await productModel.deleteOne({_id:req.params.id})
         res.redirect('/admin/viewProduct')
     }
