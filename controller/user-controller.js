@@ -8,30 +8,13 @@ const cartModel = require("../model/cartSchema");
 const wishlistModel = require("../model/wishlistSchema");
 const addressModel = require("../model/addressSchema");
 const cartFunctions = require("./cartFunctions");
+const count = require("../middlewares/cartWishlistcount");
 const bcrypt = require("bcrypt");
 const otp = require("./otp");
 const { response } = require("express");
 var objectId = require("mongodb").ObjectID;
 
-async function getCartCount(req, res) {
-  let cart = await cartModel.findOne({ userId: req.session.user._id }).lean();
-  let cartcount = 0;
-  if (cart) {
-    cartcount = cart.products.length;
-  }
-  return cartcount;
-}
 
-async function getWishlistCount(req, res) {
-  let wishlist = await wishlistModel
-    .findOne({ userId: req.session.user._id })
-    .lean();
-  let wishlistcount = 0;
-  if (wishlist) {
-    wishlistcount = wishlist.products.length;
-  }
-  return wishlistcount;
-}
 
 module.exports = {
   getLoginPage: (req, res) => {
@@ -99,8 +82,8 @@ module.exports = {
     let productData = await productModel.find().lean();
     let categoryData = await categoryModel.find().lean();
 
-    let cartcount = await getCartCount(req, res);
-    let wishlistcount = await getWishlistCount(req, res);
+    let cartcount = await count.getCartCount(req, res);
+    let wishlistcount = await count.getWishlistCount(req, res);
 
     res.render("user/view-products", {
       user: req.session.user,
@@ -119,8 +102,8 @@ module.exports = {
       .find({ category: objectId(req.params.id) })
       .lean();
 
-    let cartcount = await getCartCount(req, res);
-    let wishlistcount = await getWishlistCount(req, res);
+    let cartcount = await count.getCartCount(req, res);
+    let wishlistcount = await count.getWishlistCount(req, res);
     res.render("user/productsByCategory", {
       productData,
       inUse: true,
@@ -170,9 +153,9 @@ module.exports = {
     console.log(cartData, "getCart 1");
     //console.log(cartData.products.productId, "getCart ");
     
-    let wishlistcount = await getWishlistCount(req, res);
+    let wishlistcount = await count.getWishlistCount(req, res);
     if(cartData){
-    let cartcount = await getCartCount(req, res);
+    let cartcount = await count.getCartCount(req, res);
     
     let totalAmount = await cartFunctions.totalAmount(cartData);
      
@@ -186,7 +169,7 @@ module.exports = {
     });
   }
   else{
-    let cartcount = await getCartCount(req, res);
+    let cartcount = await count.getCartCount(req, res);
     res.render("user/cart", {
       inUse: true,
       user: req.session.user,
@@ -228,8 +211,8 @@ module.exports = {
       .lean();
     // console.log(productdetails.image[0], "productdetails 1");
     // console.log(productdetails.category.category, "brrrrrrrrrrrr");
-    let cartcount = await getCartCount(req, res);
-    let wishlistcount = await getWishlistCount(req, res);
+    let cartcount = await count.getCartCount(req, res);
+    let wishlistcount = await count.getWishlistCount(req, res);
     res.render("user/productDetails", {
       user: req.session.user,
       inUse: true,
@@ -277,8 +260,8 @@ module.exports = {
       .lean();
     //   console.log(wishlistData, "getWishlist 1");
     //   console.log(wishlistData.userId, "getWishlist 2 ");
-    let cartcount = await getCartCount(req, res);
-    let wishlistcount = await getWishlistCount(req, res);
+    let cartcount = await count.getCartCount(req, res);
+    let wishlistcount = await count.getWishlistCount(req, res);
     res.render("user/wishlist", {
       inUse: true,
       wishlistData,
@@ -289,8 +272,8 @@ module.exports = {
   },
 
   getUserProfile: async (req, res) => {
-    let cartcount = await getCartCount(req, res);
-    let wishlistcount = await getWishlistCount(req, res);
+    let cartcount = await count.getCartCount(req, res);
+    let wishlistcount = await count.getWishlistCount(req, res);
     let userDetails = await usersModel
       .findOne({ _id: req.session.user._id })
       .lean();
@@ -306,15 +289,24 @@ module.exports = {
       addressData,
     });
   },
+  postChangeName:async(req,res)=>{
+    await usersModel.updateOne({_id:req.session.user._id},{$set:{name:req.body.name}})
+    console.log(req.body.name,'postchangename usercontrol')
+    res.json({nameChanged:true})
+  },
   addAddress: async (req, res) => {
-    let cartcount = await getCartCount(req, res);
-    let wishlistcount = await getWishlistCount(req, res);
+    let cartcount = await count.getCartCount(req, res);
+    let wishlistcount = await count.getWishlistCount(req, res);
     res.render("user/addAddress", {
       inUse: true,
       user: req.session.user,
       cartcount,
       wishlistcount,
     });
+  },
+  deleteAddress:async(req,res)=>{
+    await addressModel.deleteOne({_id:req.body.addressId})
+    res.json({addressDeleted:true})
   },
   postaddAddress: async (req, res) => {
     console.log(req.body, "postaddaddress 1");
@@ -387,8 +379,8 @@ module.exports = {
     res.json({ removeItem: true });
   },
   checkOut: async (req, res) => {
-    let cartcount = await getCartCount(req, res);
-    let wishlistcount = await getWishlistCount(req, res);
+    let cartcount = await count.getCartCount(req, res);
+    let wishlistcount = await count.getWishlistCount(req, res);
     let addressData = await addressModel
       .find({ userId: req.session.user._id })
       .lean();

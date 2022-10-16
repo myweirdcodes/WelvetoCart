@@ -4,6 +4,7 @@ let cartModel = require("../model/cartSchema");
 const orderModel = require("../model/orderSchema");
 const cartFunctions = require("./cartFunctions");
 const razorpayController = require("./razorpayController");
+const count = require("../middlewares/cartWishlistcount");
 
 module.exports = {
   confirmOrderButton: async (req, res) => {
@@ -42,11 +43,27 @@ module.exports = {
       req.session.orderData = null;
       console.log("hello from cod check in oredercontroller");
       req.session.confirmationData = { orderDataPopulated, totalAmount };
+      
+      
       await cartModel.deleteOne({userId:req.session.user._id})
       await orderModel.findOneAndUpdate({_id:orderData._id},
         {status:'placed'})
+
+       // this is for stock managment in the admin side
+        let orderDataone = await orderModel.findOne({_id:orderData._id})
+        console.log(orderDataone,'hai kittunundo')
+        let orderArr = orderDataone.products
+        console.log(orderArr, 'orderArr kittunnundo')
+        for(i=0;i<orderArr.length;i++){
+        let qty = -orderArr[i].quantity
+        console.log(qty,'qty kiitiyo')
+        await productModel.updateOne({_id:orderArr[i].productId},{$inc:{"stock":qty}})
+       }
+
+
       res.json({ status: "COD", totalAmounts, orderData });
-    } else if (orderData.paymentMethod == "Online Payment") {
+    } 
+    else if (orderData.paymentMethod == "Online Payment") {
       let orderData = req.session.orderData;
       req.session.orderData = null;
       console.log("order data ajax:", orderData._id);
@@ -96,4 +113,25 @@ module.exports = {
     req.session.confirmationData = null;
     res.render("user/orderConfirmation", { orderDataPopulated, totalAmount });
   },
+  myOrders:async(req,res)=>{
+    let orderData = await orderModel.find({userId:req.session.user._id}).populate("products.productId").lean()
+    for(let i = 0; i < orderData.length; i++) {
+      if (orderData[i].status=="cancelled") {
+        orderData[i].cancelled=true;
+      } 
+      else if (orderData[i].status=="delivered"){
+          orderData[i].delivered=true;
+      }
+    };
+      let cartcount = await count.getCartCount(req,res);
+      let wishlistcount = await count.getWishlistCount(req,res); 
+      console.log(cartcount,wishlistcount,'object ano ordercontroller.myorders1')
+     res.render('user/myOrders',{orderData,inUse: true,
+      user: req.session.user,cartcount,wishlistcount})
+    
+  },
+  cancelOrder:async(req,res)=>{
+    await orderModel.updateOne({_id:req.body.orderId},{$set:{status:'cancelled'}})
+    res.json({cancelledOrder:true})
+  }
 };

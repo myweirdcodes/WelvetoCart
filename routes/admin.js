@@ -58,6 +58,15 @@ router.get('/blockUnblockUser/:id',session.adminSession,admincontrol.blockUnbloc
 
 
 
+
+
+//admin order managment routes
+
+router.get('/viewOrders',session.adminSession,admincontrol.viewOrders)
+
+router.post('/postEditStat',session.adminSession,admincontrol.postEditStat)
+
+
 // admin login routes
 
 router.get('/', admincontrol.adminLoginPage);

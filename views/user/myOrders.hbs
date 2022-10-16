@@ -1,0 +1,130 @@
+<!-- breadcrumb -->
+	<div class="container">
+		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+			<a href="#" class="stext-109 cl8 hov-cl1 trans-04">
+				Home
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+
+			<span class="stext-109 cl4">
+				My Orders
+			</span>
+		</div>
+	</div>
+
+<div class="container">
+    
+    {{#if orderData}}
+    <table class="table" id="product-table" style="margin-top: 100px;">
+        <thead style="background-color: #1d1c58; color: white;">
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                {{!-- <th scope="col">Total</th> --}}
+                <th scope="col">Status</th>
+                {{!-- <th scope="col"></th> --}}
+                <th scope="col">Cancel</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            
+            {{#each orderData}}
+            <tr>
+                <td scope="row">{{inc @index}}</td>
+                <td>
+                    {{#products}}
+                    <ul>
+                        <li><img src="/product_uploads/{{productId.image.[0]}}" style="width:41px;height:41px;">
+                        </li>
+
+                    </ul> {{/products}}
+                </td>
+                </td>
+                <td scope="row">{{#products}}
+                    <ul>
+                        <li> {{productId.name}}</li>
+
+                    </ul> {{/products}}
+                </td>
+
+                <td scope="row">{{#products}}
+                    <ul>
+                        <li>{{productId.amount}}</li>
+
+                    </ul> {{/products}}
+                </td>
+                <td scope="row">
+                    {{#products}}
+                    <ul>
+                        <li>{{quantity}}</li>
+
+                    </ul> {{/products}}
+                </td>
+                {{!-- <td scope="row">gfgf</td> --}}
+                <td id="orderStatus" scope="row">{{this.status}}</td>
+                
+                {{#if this.cancelled}}
+                <td id="orderStatus" scope="row">Already cancelled</td>
+                {{else}} {{#if this.delivered}}
+                <td id="orderStatus" scope="row">Already delivered</td>
+                {{else}}
+                <td scope="row">
+                    <button class="btn btn-outline-danger btn-sm"
+                            onclick="cancelOrder('{{this._id}}');">Cancel</button>
+                </td>
+                
+                {{/if}}{{/if}}
+                
+            </tr>
+            {{/each}}
+            
+        </tbody>
+        
+    </table>
+    {{else}}
+            <h1 class="text-center py-5">You haven't made any orders yet</h1>
+            {{/if}}
+</div>
+
+
+
+
+
+<script>
+
+   function cancelOrder(orderId){
+
+
+       $.ajax({
+            url: '/cancelOrder',
+            data: {
+
+                orderId: orderId
+
+            },
+            method: 'post',
+            success: (response) => {
+                console.log("response:",response)
+                if(response.cancelledOrder){
+                location.reload()
+                //event.preventDefault()
+                }
+                
+
+
+
+            },
+            error: (error) => {
+                alert('hierror')
+                console.log(error)
+            },
+        })
+
+
+   }
+
+</script>

@@ -31,6 +31,10 @@ app.engine(
       singleTotal: function (amount, discount) {
         return parseInt(amount - discount);
       },
+      formatString(date) {
+        newdate = date.toUTCString()
+        return newdate.slice(0, 26)
+      }
     },
     extname: "hbs",
     defaultLayout: "user-layout",

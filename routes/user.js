@@ -26,6 +26,10 @@ router.get('/addAddress/:id',session.userSession,usercontrol.addAddress)
 
 router.post('/postaddAddress/:id',session.userSession,usercontrol.postaddAddress)
 
+router.post('/deleteAddress',session.userSession,usercontrol.deleteAddress)
+
+router.post('/postChangeName',session.userSession,usercontrol.postChangeName)
+
 
 
 // user checkout routes
@@ -39,6 +43,10 @@ router.post('/confirmOrderButton',session.userSession,ordercontrol.confirmOrderB
 router.post('/verifyRazorpay', session.userSession, ordercontrol.verifyPay);
 
 router.get('/renderConfirmation', session.userSession, ordercontrol.confirmationPage) 
+
+router.get('/myOrders',session.userSession,ordercontrol.myOrders)
+
+router.post('/cancelOrder',session.userSession,ordercontrol.cancelOrder)
 
 
 
@@ -83,9 +91,9 @@ router.get('/logout',usercontrol.logout)
 
 router.post('/otpverify/:id', usercontrol.post_Otp);
 
-router.get('/otp',(req,res)=>{
-    res.render('user/otp',{layout:false})
-})
+// router.get('/otp',(req,res)=>{
+//     res.render('user/otp',{layout:false})
+// })
 
 
 module.exports = router;

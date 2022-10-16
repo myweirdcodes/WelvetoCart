@@ -34,13 +34,13 @@
             {{!-- edit Username --}}
             <div class="align-center mb-2">
               <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Name"
-                data-bs-whatever="@name">Edit Username</button>
+                data-bs-whatever="@name" onclick="changeName('{{userDetails._Id}}','{{userDetails.name}}')">Edit Username</button>
             </div>
             {{!-- password button --}}
-            <div>
+            {{!-- <div>
               <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#password"
                 data-bs-whatever="@pass">Change Password</button>
-            </div>
+            </div> --}}
           </div>
         </div>
 
@@ -158,7 +158,7 @@
                       </label>
                     </div>
                   </div> --}}
-                  <button type="submit" class="btn btn-dark">Submit Edit</button>
+                  {{!-- <button type="submit" class="btn btn-dark">Submit Edit</button> --}}
                   <button type="button" onclick="deleteAddress('{{this._id}}')"  class="btn btn-danger">Delete Address</button> 
                   </form>
               </div>
@@ -179,17 +179,17 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form>
+          <form action="/postChangeName" method="post">
             <div class="mb-3">
               <label for="recipient-name" class="col-form-label">Name:</label>
-              <input id="name" type="text" class="form-control" id="recipient-name">
+              <input id="name" type="text" name="name" class="form-control" value="" id="recipient-name">
             </div>
 
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" onclick="changeUsername({{this.id}})" class="btn btn-primary">Update</button>
+          <button type="submit" id="nameChanged" class="btn btn-primary">Update</button>
         </div>
         </form>
       </div>
@@ -197,7 +197,7 @@
   </div>
 
   {{!-- changePassword --}}
-  <div class="modal mt-5 pt-5 fade" id="password" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  {{!-- <div class="modal mt-5 pt-5 fade" id="password" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -227,7 +227,7 @@
         </form>
       </div>
     </div>
-  </div>
+  </div> --}}
 
 
 
@@ -242,23 +242,48 @@
 
 <script>
 
-  function changeUsername(userId){
-     
-     $.ajax({
-      url:'/userNameEdit',
+
+  function changeName(userId,userName){
+    document.getElementById('name').value = userName
+
+
+
+           $('#nameChanged').click(function(){
+          
+           $.ajax({
+        url:'/postChangeName',
+        method:'post',
+        success:(response)=>{
+          if(response.nameChanged){
+            console.log(response)
+          alert('username updated successfully')
+          location.reload()
+            }
+        }
+       })
+           
+       })
+        
+
+       
+      
+    
+  }
+
+  function deleteAddress(addressId){
+    $.ajax({
+      url:'/deleteAddress',
       data:{
-        userId:userId
+        addressId:addressId
       },
       method:'post',
       success:(response)=>{
-        if(response.status){
-          alert('userName updated successfully')
-          location.reload()
-        }
-        else{
-          alert('failed to update username')
+        if(response.addressDeleted){
+          alert('address has been deleted')
+          location.reload();
         }
       }
-     })
+    })
   }
+  
 </script>

@@ -7,6 +7,7 @@ const categoryModel = require('../model/categorySchema')
 const productModel = require('../model/productSchema');
 const userModel = require('../model/userSchema')
 const cartModel = require("../model/cartSchema")
+const orderModel = require('../model/orderSchema')
 const { response } = require('../app');
 const fs = require('fs')
 const path = require('path')
@@ -175,5 +176,22 @@ module.exports = {
         imagepat.image.map((i)=> fs.unlinkSync(path.join(__dirname,'..','public','product_uploads',i)))
         await productModel.deleteOne({_id:req.params.id})
         res.redirect('/admin/viewProduct')
+    },
+    viewOrders:async(req,res)=>{
+        let orderData = await orderModel.find().populate('userId').lean()
+        res.render('admin/viewOrders',{layout:'admin-layout',admin:true,currentAdmin:req.session.admin,orderData})
+    },
+    postEditStat:async(req,res)=>{
+        let status = await orderModel.updateOne({_id:req.body.orderId},{$set:{status:req.body.status}})
+        let newstatus = await orderModel.findOne({_id:req.body.orderId}).lean()
+        console.log(status,'postEditstatus -1')
+        console.log(req.body,'postEditstatus 0')
+        console.log(req.body.status,'postEditStatus 1')
+        //res.redirect('/admin/viewOrders')
+        //console.log(status)
+        if(status.acknowledged){
+
+            res.json({status:true})
+        }
     }
 }
