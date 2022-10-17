@@ -3,6 +3,7 @@ const router = express.Router();
 const usercontrol = require('../controller/user-controller')
 const session = require('../middlewares/session_middleware');
 const ordercontrol = require('../controller/orderController');
+const couponRoutes = require('../controller/couponController');
 const razorpayController = require('../controller/razorpayController');
 
 /* GET home page. */
@@ -83,6 +84,12 @@ router.post('/removeWishlistItem',session.userSession,usercontrol.removeWishlist
 router.get('/logout',usercontrol.logout)
 
 
+
+
+
+//user couponroutes
+
+router.post('/couponValidation',session.userSession,couponRoutes.validateCoupon)
 
 // user otp routes
 

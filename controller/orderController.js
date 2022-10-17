@@ -2,6 +2,8 @@ const userModel = require("../model/userSchema");
 const productModel = require("../model/productSchema");
 let cartModel = require("../model/cartSchema");
 const orderModel = require("../model/orderSchema");
+const couponModel = require('../model/couponSchema')
+
 const cartFunctions = require("./cartFunctions");
 const razorpayController = require("./razorpayController");
 const count = require("../middlewares/cartWishlistcount");
@@ -19,19 +21,40 @@ module.exports = {
       .lean();
     console.log("cartData from checkout page page::", cartData);
 
-    let orderData = await orderModel.create({
-      userId: userId,
-      billingAddress: req.body,
-      products: cartData.products,
-      status: "pending",
-      paymentMethod: req.body.paymentMethod,
-    });
+    
 
-    console.log('orderData', orderData)
+    
 
-    totalAmount = await cartFunctions.totalAmount(cartData);
+    let totalAmount = await cartFunctions.totalAmount(cartData);
     console.log("totalAmount", totalAmount);
-    totalAmounts = totalAmount * 100;
+    //let totalAmounts = totalAmount * 100;
+
+
+    if(req.session.coupon){
+           
+      let discountAmount = req.session.coupon.discountAmount;
+     
+      totalAmount = totalAmount - discountAmount
+      //add userID to coupon //
+      await couponModel.findOneAndUpdate({_id:req.session.coupon._id},{$set:{users:userId}})
+     
+  }
+
+  
+  
+  let orderData = await orderModel.create({
+    userId: userId,
+    billingAddress: req.body,
+    products: cartData.products,
+    status: "pending",
+    paymentMethod: req.body.paymentMethod,
+    grandTotal: totalAmount
+  });
+
+  console.log('orderData', orderData)
+  
+  let totalAmounts = totalAmount * 100;
+
     orderDataPopulated = await orderModel
       .findOne({ _id: orderData._id })
       .populate("products.productId")
@@ -65,7 +88,7 @@ module.exports = {
     } 
     else if (orderData.paymentMethod == "Online Payment") {
       let orderData = req.session.orderData;
-      req.session.orderData = null;
+      //req.session.orderData = null;
       console.log("order data ajax:", orderData._id);
       console.log("amount data ajax:", totalAmounts);
       console.log("session data ajax:", req.session);
@@ -97,6 +120,25 @@ module.exports = {
         { status: "placed" }
       );
       await cartModel.deleteOne({userId:req.session.user._id})
+
+
+    
+    // this is for stock managment in the admin side
+    let orderData = req.session.orderData;
+    req.session.orderData = null;
+    let orderDataone = await orderModel.findOne({_id:orderData._id})
+    console.log(orderDataone,'hai kittunundo')
+    let orderArr = orderDataone.products
+    console.log(orderArr, 'orderArr kittunnundo')
+    for(i=0;i<orderArr.length;i++){
+    let qty = -orderArr[i].quantity
+    console.log(qty,'qty kiitiyo')
+    await productModel.updateOne({_id:orderArr[i].productId},{$inc:{"stock":qty}})
+   }
+    
+   
+   
+
       return res.json({ status: "true" });
     } else {
       await orderModel.findOneAndUpdate(

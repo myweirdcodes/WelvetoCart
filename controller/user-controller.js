@@ -7,6 +7,7 @@ const categoryModel = require("../model/categorySchema");
 const cartModel = require("../model/cartSchema");
 const wishlistModel = require("../model/wishlistSchema");
 const addressModel = require("../model/addressSchema");
+const couponModel = require('../model/couponSchema')
 const cartFunctions = require("./cartFunctions");
 const count = require("../middlewares/cartWishlistcount");
 const bcrypt = require("bcrypt");
@@ -389,6 +390,7 @@ module.exports = {
       .populate("products.productId")
       .lean();
     let totalAmount = await cartFunctions.totalAmount(cartData);
+    let couponData = await couponModel.find().lean()
     res.render("user/checkOut", {
       inUse: true,
       user: req.session.user,
@@ -397,6 +399,7 @@ module.exports = {
       addressData,
       cartData,
       totalAmount,
+      couponData
     });
   },
   billingAddress: async (req, res) => {

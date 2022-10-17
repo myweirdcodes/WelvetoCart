@@ -9,12 +9,12 @@
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
-.modal-dialog{
+/* .modal-dialog{
 	width: 800px !important;
-}
-.modal-content{
+} */
+/* .modal-content{
 	height: 500px;
-}
+} */
 
 body, html {
 	font-family: Arial, sans-serif;

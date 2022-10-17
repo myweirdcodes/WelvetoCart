@@ -1,0 +1,88 @@
+
+
+
+<div class="main">
+
+<div class="d-flex justify-content-center mt-5 mb-5">
+    
+                <canvas id="myChart" style="width:600px;max-width:600px"></canvas>
+            
+</div>
+       <div class="d-flex justify-content-center mt-5">
+                <canvas id="myChart1" style="width:500px;max-width:600px"></canvas>
+           
+       </div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+
+<script>
+(function() {
+  
+    console.log("hihihhhih");
+   
+  $.ajax({
+      
+      url:'/admin/dashboardGraph',
+      data: {
+        test:"hihh"
+        },
+      method: 'post',
+      success: (res) => {
+        console.log(res);
+          var xValues = ["January", "Febrauary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var yValues = res.monthlyTotal;
+        var barColors = ["red", "green", "blue", "orange", "brown", "yellow", "green", "green", "green", "green", "green", "green"];
+
+        new Chart("myChart", {
+            type: "bar",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: "Monthly sales in the year 2022"
+                }
+            }
+        });
+
+        var xValues = ["COD","Online Payment"];
+        var yValues = res.paymentTotal;
+        var barColors = [
+            "#b91d47",
+            "#00aba9",
+            "#2b5797",
+            "#e8c3b9",
+            "#1e7145"
+        ];
+
+        new Chart("myChart1", {
+            type: "doughnut",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Total amount of COD's and Online Payments"
+                }
+            }
+        });
+      },
+  });
+})();
+</script>
+

@@ -165,19 +165,19 @@
           <li class="list-group-item d-flex justify-content-between bg-light">
             <div class="text-success">
               <h6 class="my-0">Promo code</h6>
-              <small>EXAMPLECODE</small>
+              <small id="couponCode">CODE</small>
             </div>
-            <span class="text-success">-₹5</span>
+            <span class="text-success">-₹<span id="discountAmount"></span></span>
           </li>
           <li class="list-group-item d-flex justify-content-between">
             <span>Total (INR)</span>
-            <strong>₹{{totalAmount}}</strong>
+            <strong id="totalAmount">₹{{totalAmount}}</strong>
           </li>
         </ul>
         <!-- Cart -->
 
         <!-- Promo code -->
-        <form class="card p-2">
+        {{!-- <form class="card p-2">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Promo code" aria-label="Recipient's username"
               aria-describedby="basic-addon2">
@@ -185,8 +185,66 @@
               <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Redeem</button>
             </div>
           </div>
+        </form> --}}
+        <form class="card p-2">
+          <button type="button" class="btn btn-outline-dark p-2 mb-2" data-bs-toggle="modal"
+            data-bs-target="#exampleModal">
+            Coupons Available >>>
+          </button>
+          <div class="input-group">
+            <input id="couponId" type="text" class="form-control" placeholder="Promo code"
+              aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <button onclick="couponValidator('{{totalAmount}}')" class="btn btn-secondary  btn-md waves-effect m-0"
+                type="button">Redeem</button>
+            </div>
+          </div>
+          <span>
+            <p class="pt-2 pl-3" style="color:rgb(7, 6, 6) ;" id="couponValue">Check coupons!</p>
+          </span>
+
         </form>
         <!-- Promo code -->
+            
+
+
+            
+           <div class="modal " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog pt-5 mt-5">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Select Coupon</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                {{#each couponData}}
+                <div class="card text-center m-5" style="background-color: #f7f7f7;">
+                  <div class="card-header">
+                    {{couponName}}
+                  </div>
+                  <div class="card-body p-5" style="background-color: #f7f7f7;">
+                    <h5 class="card-title">{{couponCode}}</h5>
+                    <p class="card-text">Coupon worth ₹{{discountAmount}} <br> For minimum purchase of ₹{{minAmount}}
+                    </p>
+                    <a href="" class="btn btn-primary" style="background-color: #48433b; border: #B19361;"
+                      onclick="copyFunction('{{couponCode}}')">Copy Code</a>
+                  </div>
+                  <div class="card-footer text-muted">
+                    Expiry Date: {{formatString expiryDate}}
+                  </div>
+                </div>
+                {{/each}}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-success">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+             
+
 
 
         {{!-- payment method --}}
@@ -392,5 +450,71 @@
         }
       }
     })
+  }
+</script>
+
+
+<script>
+  function couponValidator(total) {
+    let totalAmount = document.getElementById('totalAmount').textContent
+    couponId = document.getElementById('couponId').value
+    console.log('Coupon Id ;', couponId, 'total amount:', totalAmount);
+    $.ajax({
+      url: '/couponValidation',
+      data: {
+        couponId: couponId,
+        total: total
+
+
+      },
+
+      method: 'post',
+      success: (response) => {
+        console.log(response);
+        
+        if (response.message == 'used already') {
+          document.getElementById("totalAmount").textContent = total;
+          document.getElementById("discountAmount").textContent = "NIL";
+          document.getElementById("couponCode").textContent = "NIL";
+
+          document.getElementById('couponValue').innerHTML = "<span style='color: green;'>Coupon Already Used!</span>";
+        }
+        else if (response.message == 'coupon expired') {
+          document.getElementById("totalAmount").textContent = total;
+          document.getElementById("discountAmount").textContent = "NIL";
+          document.getElementById("couponCode").textContent = "NIL";
+
+          document.getElementById('couponValue').innerHTML = "<span style='color: green;'>Coupon Expired!</span>";
+        }
+        else if (response.message == 'less than minimum') {
+          document.getElementById("totalAmount").textContent = total;
+          document.getElementById("discountAmount").textContent = "NIL";
+          document.getElementById("couponCode").textContent = "NIL";
+
+          document.getElementById('couponValue').innerHTML = "<span style='color: green;'>Add Items to Cart!</span>";
+        }
+        else if (response.message == 'succesfull') {
+          document.getElementById("totalAmount").textContent = response.couponTotal;
+          document.getElementById("discountAmount").textContent = response.coupons.discountAmount;
+          document.getElementById("couponCode").textContent = response.coupons.couponCode;
+
+          document.getElementById('couponValue').innerHTML = "<span style='color: green;'>Coupon Applied!</span>";
+        }
+        else if (response.message == 'invalid coupon') {
+          document.getElementById("totalAmount").textContent = total;
+          document.getElementById("discountAmount").textContent = "NIL";
+          document.getElementById("couponCode").textContent = "NIL";
+
+          document.getElementById('couponValue').innerHTML = "<span style='color: red;'>Invalid Coupon!</span>";
+        }
+      }
+    });
+  }
+
+
+  function copyFunction(couponId) {
+    event.preventDefault()
+    console.log("copied couponId:", couponId);
+    navigator.clipboard.writeText(couponId);
   }
 </script>

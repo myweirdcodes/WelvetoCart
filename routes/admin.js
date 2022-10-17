@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const admincontrol = require('../controller/admin-controller');
 const session = require('../middlewares/session_middleware')
+const couponRoutes = require('../controller/couponController');
 const multer = require('multer')
 const storage = multer.diskStorage({
   destination: function(req,file,cb){
@@ -77,6 +78,25 @@ router.get('/adminlogout',admincontrol.adminLogout)
 
 
 
+
+//admin coupon routes
+
+router.get('/addCoupon',couponRoutes.renderAddCoupon)
+router.post('/addCoupon',couponRoutes.addCoupon)
+router.get('/viewCoupon',couponRoutes.couponTable)
+router.get('/editCoupon',couponRoutes.renderEditCoupon)
+router.post('/editCoupon/:id',couponRoutes.editCoupon);
+router.get('/deleteCoupon/:id',couponRoutes.deleteCoupon)
+
+
+//admin dashboard routes
+
+router.get('/dashboard',admincontrol.renderDashboard)
+router.post('/dashboardGraph',admincontrol.graphData)
+
+
+
+
 // admin signup routes
 
 //router.get('/signupPage',admincontrol.adminSignupPage)
@@ -84,7 +104,21 @@ router.get('/adminlogout',admincontrol.adminLogout)
 //router.post('/signup',admincontrol.adminSignup)
 
 
+router.use(function(req, res, next) {
+  next(createError(404));
+});
 
+// error handler
+router.use(function(err, req, res, next) {
+  console.log(err);
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('admin/error');
+});
 
 
 

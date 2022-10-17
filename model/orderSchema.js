@@ -36,7 +36,7 @@ const orderSchema = new mongoose.Schema({
     orderId: String,
     status: String,
     paymentMethod: String, 
-
+    grandTotal: Number
 },{timestamps:true})
 
 const Order=mongoose.model('Order',orderSchema)
