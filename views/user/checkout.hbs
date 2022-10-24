@@ -20,26 +20,12 @@
           <h6 class="card-subtitle mb-1 text-muted">ph: {{this.phone}}</h6>
           <p class="card-text">address: {{this.address}}</p>
           <p class="card-text">zip: {{this.pincode}}</p>
-          {{!-- <a href="/userDetails" class="btn btn-primary mt-3">Manage</a> --}}
-          {{!-- <a href="#" class="card-link">Another link</a> --}}
+          
         </div>
       </div>
       {{/each}}
       
-      {{!-- <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <div class="form-check">
-            <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1" checked>Option 1
-            <label class="form-check-label" for="radio1"></label>
-          </div>
-          <h5 class="card-title">Address 1</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-            card's content.</p>
-          <a href="#" class="card-link">Card link</a>
-          <a href="#" class="card-link">Another link</a>
-        </div>
-      </div> --}}
+      
     </div>
     <a href="/addAddress/{{user._id}}" class="btn btn-outline-success mt-4 mr-2">Add New Address</a>
     <a href="/userDetails" class="btn btn-outline-success mt-4">Manage Addresses</a>
@@ -87,10 +73,7 @@
                 </div>
                 <div class="form-group col-md-4">
                   <label for="inputState">State</label>
-                  {{!-- <select id="inputState" class="form-control">
-                    <option selected>Choose...</option>
-                    <option value="Kerala">kerala</option>
-                  </select> --}}
+                  
                   <input type="text" name="state" class="form-control" id="state" value="{{this.state}}">
                 </div>
                 <div class="form-group col-md-2">
@@ -102,14 +85,7 @@
                   <input type="text" name="landmark" class="form-control" id="landmark" value="{{this.landmark}}">
                 </div>
               </div>
-              {{!-- <div class="form-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="gridCheck">
-                  <label class="form-check-label" for="gridCheck">
-                    Check me out
-                  </label>
-                </div>
-              </div> --}}
+              
               
             </form>
 
@@ -132,9 +108,9 @@
 
         <!-- Heading -->
         <h4 class="d-flex justify-content-between align-items-center mb-3">
-          {{!-- <span class="text-muted">Your cart</span> --}}
+          
           <h2 class="pb-3">Your Cart</h2>
-          {{!-- <span class="badge badge-secondary badge-pill">3</span> --}}
+          
         </h4>
 
         <!-- Cart -->
@@ -148,20 +124,7 @@
             <span class="text-muted"{{this.productId._id}}price>₹{{total this.productId.price this.quantity}}</span>
           </li>
           {{/each}}
-          {{!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
-            <div>
-              <h6 class="my-0">Second product</h6>
-              <small class="text-muted">Brief description</small>
-            </div>
-            <span class="text-muted">$8</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-condensed">
-            <div>
-              <h6 class="my-0">Third item</h6>
-              <small class="text-muted">Brief description</small>
-            </div>
-            <span class="text-muted">$5</span>
-          </li> --}}
+          
           <li class="list-group-item d-flex justify-content-between bg-light">
             <div class="text-success">
               <h6 class="my-0">Promo code</h6>
@@ -177,15 +140,7 @@
         <!-- Cart -->
 
         <!-- Promo code -->
-        {{!-- <form class="card p-2">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Promo code" aria-label="Recipient's username"
-              aria-describedby="basic-addon2">
-            <div class="input-group-append">
-              <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Redeem</button>
-            </div>
-          </div>
-        </form> --}}
+        
         <form class="card p-2">
           <button type="button" class="btn btn-outline-dark p-2 mb-2" data-bs-toggle="modal"
             data-bs-target="#exampleModal">
@@ -270,31 +225,7 @@
               
         </form>
 
-        {{!-- <form action="" id="checkoutForm">
-              <div class="d-flex justify-content-between mt-3 my-3">
-                <div class="keys ms-4">
-                  <h6>Payment method:</h6>
-                </div>
-                <select
-                  class="form-select me-3"
-                  aria-label="Default select example"
-                  name="payment-method"
-                  aria-placeholder="Choose option"
-                  required
-                >
-                  <option value="" disabled selected>Choose option</option>
-                  <option value="Online">Online Payment</option>
-                  <option value="COD">COD</option>
-
-                </select>
-                  </div>
-              <div
-                class="col-12 d-flex flex-column justify-content-center align-items-center mb-4"
-              >
-
-                <button class="btn btn-primary" type="submit">Checkout</button>
-              </div>
-            </form> --}}
+        
 
       </div>
       <!--Grid column-->
@@ -413,13 +344,7 @@
           e.preventDefault();
           rzp1.on('payment.failed', function (response) {
             alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id);
-
+            
           });
 
         }

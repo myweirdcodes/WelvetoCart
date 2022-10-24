@@ -46,8 +46,7 @@
                                             
                                             <th scope="col">Edit-Category</th>
                                             <th scope="col">Delete-Category</th>
-                                            {{!-- <th scope="col">Block/Unblock User</th>
-                                            <th scope="col">Status</th> --}}
+                                            
                                         </tr>
                                     </thead> 
 
@@ -56,16 +55,10 @@
                                         <tr>
                                             <th scope="row">{{inc @index}}</th>
                                             <td>{{this.category}}</td>
-                                            {{!-- <td>{{this.subCategory}}</td> --}}
+                                            
                                             <td><a href="" class="btn" onclick="editCategory('{{this._id}}')"><i class="gd-pencil icon-text"></i></a></td>
                                             <td><a href="" onclick="deleteCategory('{{this._id}}')"><i class="gd-trash icon-text"></i></a> </td>
-                                            {{!-- <td><a href="/admin/edit/{{this._id}}"><i class="bi bi-pencil-square"></i></a></td>
-                                            {{#if this.block}}
-                                          
-                                            <td><button class="btn btn-primary">blocked</button></td>
-                                            {{else}}
-                                              <td><button class="btn btn-success">active</button></td>
-                                            {{/if}} --}}
+                                            
                                         </tr>
                                    {{/each}}
                                  </tbody>

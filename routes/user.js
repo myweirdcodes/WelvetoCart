@@ -49,6 +49,7 @@ router.get('/myOrders',session.userSession,ordercontrol.myOrders)
 
 router.post('/cancelOrder',session.userSession,ordercontrol.cancelOrder)
 
+router.get('/orderDetails/:id',session.userSession,ordercontrol.orderDetails)
 
 
 // user view products routes

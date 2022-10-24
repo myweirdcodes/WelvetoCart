@@ -4,7 +4,7 @@
 
 
 # Ignoring images 
-/public/product_uploads/
+
 
 
 # Ignore files related to installed npm packages

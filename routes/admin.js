@@ -84,7 +84,7 @@ router.get('/adminlogout',admincontrol.adminLogout)
 router.get('/addCoupon',couponRoutes.renderAddCoupon)
 router.post('/addCoupon',couponRoutes.addCoupon)
 router.get('/viewCoupon',couponRoutes.couponTable)
-router.get('/editCoupon',couponRoutes.renderEditCoupon)
+router.get('/editCoupon/:id',couponRoutes.renderEditCoupon)
 router.post('/editCoupon/:id',couponRoutes.editCoupon);
 router.get('/deleteCoupon/:id',couponRoutes.deleteCoupon)
 

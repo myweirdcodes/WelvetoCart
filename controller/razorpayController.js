@@ -9,7 +9,7 @@ var instance = new Razorpay({
 
   module.exports = {
     generateRazorpy:async (orderId, amount) => {
-      console.log("orderId:",orderId,"amount:",amount);
+      
        let value = await instance.orders.create({
            
          amount: amount,
@@ -20,9 +20,10 @@ var instance = new Razorpay({
            key2: "value2",
          }
        });
-       console.log("value:",value);
+       
        return value;
-     },
+     
+      },
      validate: async (razorData) => {
       let hmac = crypto.createHmac("sha256", process.env.RAZOR_PAY_SECRET_KEY);
       await hmac.update(
@@ -33,7 +34,7 @@ var instance = new Razorpay({
       hmac = await hmac.digest("hex");
       if (hmac == razorData["razorResponse[razorpay_signature]"])
         return (orderConfirmed = true);
-      console.log("its not working");
+      
       return (orderConfirmed = false);
     }
   }

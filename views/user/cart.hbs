@@ -1,3 +1,6 @@
+<div class="main">
+
+
 <!-- breadcrumb -->
 	<div class="container">
 		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
@@ -43,10 +46,7 @@
 							onclick="changeQuantity('{{../cartData._id}}','{{this.productId._id}}',1,'{{@index}}')">+</button>
 					</td>
 					<td>
-						{{!-- <button onclick="removeCartProduct('{{../cartData._id}}','{{this.productId._id}}')"
-							class="btn btn-danger">Remove</button> --}}
-						{{!-- <a href="" onclick="removeCartProduct('{{../cartData._id}}','{{this.productId._id}}')"
-							class="btn btn-danger">Remove</a> --}}
+						
 							<a href="" onclick="removeCartProduct('{{../cartData._id}}','{{this.productId._id}}')" class=""> <i class="gd-trash icon-text"></i></a>
 					</td>
 					<td class="column-5" id="total{{this.productId._id}}">
@@ -68,7 +68,7 @@
 		</div>
 		{{else}}
 		<div class="text-center">
-			<h1 class="my-5">Please add items to Cart</h1>
+			<h1 class="my-5  m-l-170 p-l-300">Please add items to Cart</h1>
 		</div>
 
 		{{/if}}
@@ -76,6 +76,9 @@
 
 	</div>
 </section>
+
+
+</div>
 
 
 <script>

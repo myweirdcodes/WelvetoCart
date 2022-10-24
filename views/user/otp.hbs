@@ -16,9 +16,7 @@
              <form method="POST" action="/otpverify/{{id}}">
               <div class="d-flex flex-row mt-5">
                 <input name="otp" type="text" value="otp" class="form-control" maxlength="6">
-                {{!-- <input type="text" class="form-control" maxlength="1">
-                <input type="text" class="form-control"maxlength="1">
-                <input type="text" class="form-control"maxlength="1"> --}}
+                
 
                 </div>
                 
@@ -32,40 +30,6 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!-- <script>
-
-
-        $(document).ready(function () {
-            $("#myform").validate({
-                rules: {
-                    fname: {
-                        required: true,
-                        minlength: 4
-                    },
-                    lname: { required: true },
-                    mailid: {
-                        required: true
-                        , email: true
-                    },
-                    place: { required: true },
-                    pincode: {
-                        required: true,
-                        maxlength: 6,
-                        minlength: 6,
-                        number: true
-                    },
-                    password: { required: true }
     
-                },
-                meessage: {
-                    pincode: {
-                        required: "hello", maxlength: "enter 6 numbers",
-                        minlength: "enter 6 numbers"
-                    }
-                }
-    
-            })
-        })
-    </script> -->
 </body>
 </html>

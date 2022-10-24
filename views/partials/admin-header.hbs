@@ -4,16 +4,17 @@
         <div class="navbar-brand-wrapper d-flex align-items-center col-auto">
             <!-- Logo For Mobile View -->
             <a class="navbar-brand navbar-brand-mobile" href="/">
-                <img class="img-fluid w-100" src="/user/img/logo-mini.png" alt="Graindashboard">
+                <img class="img-fluid w-100" src="\user\img\technophil-high-resolution-logo-black-on-transparent-background.png" alt="Graindashboard">
             </a>
             <!-- End Logo For Mobile View -->
 
             <!-- Logo For Desktop View -->
             <a class="navbar-brand navbar-brand-desktop" href="/">
-                <img class="side-nav-show-on-closed" src="/user/img/logo-mini.png" alt="Graindashboard" style="width: auto; height: 33px;">
-                <img class="side-nav-hide-on-closed" src="/user/img/logo.png" alt="Graindashboard" style="width: auto; height: 33px;">
+                <img class="side-nav-show-on-closed pl-5" src="\user\img\technophil-high-resolution-logo-black-on-transparent-background.png" alt="Graindashboard" style="width: auto; height: 44px;">
+                <img class="side-nav-hide-on-closed pl-5" src="\user\img\technophil-high-resolution-logo-black-on-transparent-background.png" alt="Graindashboard" style="width: auto; height: 44px;">
             </a>
             <!-- End Logo For Desktop View -->
+            
         </div>
 
         <div class="header-content col px-md-3">
@@ -27,54 +28,11 @@
                 </a>
                 <!-- End Side Nav Toggle -->
 
-                <!-- User Notifications -->
-                <div class="dropdown ml-auto">
-                    <a id="notificationsInvoker" class="header-invoker" href="#" aria-controls="notifications" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#notifications" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-animation-in="fadeIn" data-unfold-animation-out="fadeOut">
-                        <span class="indicator indicator-bordered indicator-top-right indicator-primary rounded-circle"></span>
-                        <i class="gd-bell"></i>
-                    </a>
-
-                    <div id="notifications" class="dropdown-menu dropdown-menu-center py-0 mt-4 w-18_75rem w-md-22_5rem unfold-css-animation unfold-hidden" aria-labelledby="notificationsInvoker" style="animation-duration: 300ms;">
-                        <div class="card">
-                            <div class="card-header d-flex align-items-center border-bottom py-3">
-                                <h5 class="mb-0">Notifications</h5>
-                                <a class="link small ml-auto" href="#">Clear All</a>
-                            </div>
-
-                            <div class="card-body p-0">
-                                <div class="list-group list-group-flush">
-                                    <div class="list-group-item list-group-item-action">
-                                        <div class="d-flex align-items-center text-nowrap mb-2">
-                                            <i class="gd-info-alt icon-text text-primary mr-2"></i>
-                                            <h6 class="font-weight-semi-bold mb-0">New Update</h6>
-                                            <span class="list-group-item-date text-muted ml-auto">just now</span>
-                                        </div>
-                                        <p class="mb-0">
-                                            Order <strong>#10000</strong> has been updated.
-                                        </p>
-                                        <a class="list-group-item-closer text-muted" href="#"><i class="gd-close"></i></a>
-                                    </div>
-                                    <div class="list-group-item list-group-item-action">
-                                        <div class="d-flex align-items-center text-nowrap mb-2">
-                                            <i class="gd-info-alt icon-text text-primary mr-2"></i>
-                                            <h6 class="font-weight-semi-bold mb-0">New Update</h6>
-                                            <span class="list-group-item-date text-muted ml-auto">just now</span>
-                                        </div>
-                                        <p class="mb-0">
-                                            Order <strong>#10001</strong> has been updated.
-                                        </p>
-                                        <a class="list-group-item-closer text-muted" href="#"><i class="gd-close"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End User Notifications -->
+                
                 <!-- User Avatar -->
-                <div class="dropdown mx-3 dropdown ml-2">
+                <div class="dropdown mx-3 dropdown ml-auto">
                     <a id="profileMenuInvoker" class="header-complex-invoker" href="#" aria-controls="profileMenu" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#profileMenu" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-animation-in="fadeIn" data-unfold-animation-out="fadeOut">
-                        <!--img class="avatar rounded-circle mr-md-2" src="#" alt="John Doe"-->
+                        
                         <span class="mr-md-2 avatar-placeholder">{{currentAdmin.name.[0]}}</span>
                         <span class="d-none d-md-block">{{currentAdmin.name}}</span>
                         <i class="gd-angle-down d-none d-md-block ml-2"></i>
@@ -109,35 +67,9 @@
 <!-- Sidebar Nav -->
     <aside id="sidebar" class="js-custom-scroll side-nav">
         <ul id="sideNav" class="side-nav-menu side-nav-menu-top-level mb-0">
-            {{!-- <!-- Title -->
-            <li class="sidebar-heading h6">Dashboard</li>
-            <!-- End Title -->
+            
 
-            <!-- Dashboard -->
-            <li class="side-nav-menu-item">
-                <a class="side-nav-menu-link media align-items-center" href="/">
-              <span class="side-nav-menu-icon d-flex mr-3">
-                <i class="gd-dashboard"></i>
-              </span>
-                    <span class="side-nav-fadeout-on-closed media-body">Dashboard</span>
-                </a>
-            </li>
-            <!-- End Dashboard -->
-
-            <!-- Documentation -->
-            <li class="side-nav-menu-item">
-                <a class="side-nav-menu-link media align-items-center" href="documentation/" target="_blank">
-              <span class="side-nav-menu-icon d-flex mr-3">
-                <i class="gd-file"></i>
-              </span>
-                    <span class="side-nav-fadeout-on-closed media-body">Documentation</span>
-                </a>
-            </li>
-            <!-- End Documentation --> --}}
-
-            <!-- Title -->
-            <li class="sidebar-heading h6">Examples</li>
-            <!-- End Title -->
+            
 
 
             <!-- Authentication -->
@@ -159,18 +91,7 @@
                     <li class="side-nav-menu-item">
                         <a class="side-nav-menu-link" href="/admin/dashboard">View Dashboard</a>
                     </li>
-                    {{!-- <li class="side-nav-menu-item">
-                        <a class="side-nav-menu-link" href="/admin/addProduct">Add product</a>
-                    </li> --}}
-                    {{!-- <li class="side-nav-menu-item">
-                        <a class="side-nav-menu-link" href="/admin/addCategory">Add Edit Delete Category</a>
-                    </li> --}}
-                    {{!-- <li class="side-nav-menu-item">
-                        <a class="side-nav-menu-link" href="">Any content</a>
-                    </li>
-                    <li class="side-nav-menu-item">
-                        <a class="side-nav-menu-link" href="email-verification.html">Email Verification</a>
-                    </li> --}}
+                    
                 </ul>
                 <!-- End Pages: subPages -->
             </li>
@@ -195,9 +116,7 @@
                     <li class="side-nav-menu-item active">
                         <a class="side-nav-menu-link" href="/admin/viewUser">All Users</a>
                     </li>
-                    <li class="side-nav-menu-item">
-                        <a class="side-nav-menu-link" href="user-edit.html">Add new</a>
-                    </li>
+                    
                 </ul>
                 <!-- End Users: subUsers -->
             </li>
@@ -334,27 +253,7 @@
 
 
             
-            {{!-- <!-- Settings -->
-            <li class="side-nav-menu-item">
-                <a class="side-nav-menu-link media align-items-center" href="/admin/addCategory">
-              <span class="side-nav-menu-icon d-flex mr-3">
-                <i class="gd-settings"></i>
-              </span>
-                    <span class="side-nav-fadeout-on-closed media-body">Category</span>
-                </a>
-            </li>
-            <!-- End Settings --> --}}
-
-            {{!-- <!-- Static -->
-            <li class="side-nav-menu-item">
-                <a class="side-nav-menu-link media align-items-center" href="static-non-auth.html">
-              <span class="side-nav-menu-icon d-flex mr-3">
-                <i class="gd-file"></i>
-              </span>
-                    <span class="side-nav-fadeout-on-closed media-body">Static page</span>
-                </a>
-            </li>
-            <!-- End Static --> --}}
+           
 
         </ul>
     </aside>

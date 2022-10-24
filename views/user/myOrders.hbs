@@ -1,5 +1,5 @@
 <!-- breadcrumb -->
-	<div class="container">
+	<div class="container ">
 		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
 			<a href="#" class="stext-109 cl8 hov-cl1 trans-04">
 				Home
@@ -19,14 +19,14 @@
         <thead style="background-color: #1d1c58; color: white;">
             <tr>
                 <th scope="col">No</th>
-                <th scope="col">Image</th>
+                {{!-- <th scope="col">Image</th> --}}
                 <th scope="col">Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">Quantity</th>
+                {{!-- <th scope="col">Price</th> --}}
+                {{!-- <th scope="col">Quantity</th> --}}
                 {{!-- <th scope="col">Total</th> --}}
                 <th scope="col">Status</th>
                 {{!-- <th scope="col"></th> --}}
-                <th scope="col">Cancel</th>
+                {{!-- <th scope="col">Cancel</th> --}}
             </tr>
         </thead>
         
@@ -35,39 +35,39 @@
             {{#each orderData}}
             <tr>
                 <td scope="row">{{inc @index}}</td>
-                <td>
+                {{!-- <td>
                     {{#products}}
                     <ul>
                         <li><img src="/product_uploads/{{productId.image.[0]}}" style="width:41px;height:41px;">
                         </li>
 
                     </ul> {{/products}}
-                </td>
-                </td>
+                </td> --}}
+                
                 <td scope="row">{{#products}}
                     <ul>
-                        <li> {{productId.name}}</li>
+                        <li>{{productId.name}}</li>
 
                     </ul> {{/products}}
                 </td>
 
-                <td scope="row">{{#products}}
+                {{!-- <td scope="row">{{#products}}
                     <ul>
                         <li>{{productId.amount}}</li>
 
                     </ul> {{/products}}
-                </td>
-                <td scope="row">
+                </td> --}}
+                {{!-- <td scope="row">
                     {{#products}}
                     <ul>
                         <li>{{quantity}}</li>
 
                     </ul> {{/products}}
-                </td>
+                </td> --}}
                 {{!-- <td scope="row">gfgf</td> --}}
-                <td id="orderStatus" scope="row">{{this.status}}</td>
+                <td id="orderStatus" scope="row"><a href="/orderDetails/{{this._id}}"> {{this.status}}</a></td>
                 
-                {{#if this.cancelled}}
+                {{!-- {{#if this.cancelled}}
                 <td id="orderStatus" scope="row">Already cancelled</td>
                 {{else}} {{#if this.delivered}}
                 <td id="orderStatus" scope="row">Already delivered</td>
@@ -77,7 +77,7 @@
                             onclick="cancelOrder('{{this._id}}');">Cancel</button>
                 </td>
                 
-                {{/if}}{{/if}}
+                {{/if}}{{/if}} --}}
                 
             </tr>
             {{/each}}

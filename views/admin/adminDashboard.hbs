@@ -1,18 +1,33 @@
 
 
 
-<div class="main">
-
+<div  class="main justify-content-center">
+    <div class="row">
+       <div class="text-center position-absolute top-0 start-50 translate-middle" style="padding:20px;">
+			<button onclick="generatePDF1()">Generate PDF</button>
+		</div><br>
 <div class="d-flex justify-content-center mt-5 mb-5">
     
+    
                 <canvas id="myChart" style="width:600px;max-width:600px"></canvas>
-            
+
+           
 </div>
+    </div>
+
+    <div class="row">
+
+       <div class="text-center" style="padding:20px;">
+			<button onclick="generatePDF2()">Generate PDF</button>
+		</div> 
        <div class="d-flex justify-content-center mt-5">
                 <canvas id="myChart1" style="width:500px;max-width:600px"></canvas>
            
        </div>
+    </div>
+ 
 
+     
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -85,4 +100,37 @@
   });
 })();
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+		<script>
+			function generatePDF1() {
+			const element = document.getElementById('myChart');
+			var opt = {
+				  margin:       1,
+				  filename:     'dashboard.pdf',
+				  image:        { type: 'jpeg', quality: 0.98 },
+				  html2canvas:  { scale: 2 },
+				  jsPDF:        { unit: 'in', format: [6,10], orientation: 'landscape' }
+				};
+                
+				// Choose the element that our invoice is rendered in.
+				html2pdf().set(opt).from(element).save();
+                
+			}
+		</script>
+
+        <script>
+			function generatePDF2() {
+			const element = document.getElementById('myChart1');
+			var opt = {
+				  margin:       1,
+				  filename:     'dashboard.pdf',
+				  image:        { type: 'jpeg', quality: 0.98 },
+				  html2canvas:  { scale: 2 },
+				  jsPDF:        { unit: 'in', format: [8,10], orientation: 'landscape' }
+				};
+				// Choose the element that our invoice is rendered in.
+				html2pdf().set(opt).from(element).save();
+			}
+		</script>
 

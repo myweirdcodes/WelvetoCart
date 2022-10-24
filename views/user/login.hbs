@@ -1,13 +1,16 @@
- <main class="main">
+ {{!-- <main class="main">
 
       <div class="content">
 
 			<div class="container-fluid pb-5">
 
-				<div class="row justify-content-md-center">
+				<div class="row justify-content-md-center p-t-70">
 					<div class="card-wrapper col-12 col-md-4 mt-5">
-						<div class="brand text-center mb-3">
-							<a href=""><img src="user/img/logo.png"></a>
+						<div class="brand text-center  mb-3">
+							<a href="#" class="logo">
+						<img src="user\img\phutonia-high-resolution-logo-black-on-transparent-background.png" alt="">
+						
+					</a>
 						</div>
 						<div class="card">
 							<div class="card-body">
@@ -39,9 +42,7 @@
 
 									<div class="form-group no-margin">
                                         <button class="btn btn-primary" type="submit">Sign In</button>
-										{{!-- <a href="/index.html" class="btn btn-primary btn-block">
-											Sign In
-										</a> --}}
+										
 									</div>
 									<div class="text-center mt-3 small">
 										Don't have an account? <a href="/signupPage">Sign Up</a>
@@ -64,4 +65,75 @@
 			</div>
 
       </div>
-    </main>
+    </main> --}}
+
+
+
+
+
+
+
+
+	<section class="vh-100">
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100 p-t-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <img  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+          class="img-fluid" alt="Sample image">
+		  
+      </div>
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+        
+
+          <div class="brand text-center  mb-3">
+							<a href="#" class="logo p-l-130">
+						<img style="height:50px;width: auto;" src="\user\img\technophil-high-resolution-logo-black-on-transparent-background.png" alt="">
+						
+					</a>
+						</div>
+						<div class="card">
+							<div class="card-body">
+								<h4 class="card-title">Login</h4>
+								<form action="/login" method="POST">
+									<div class="form-group">
+										<label for="email">E-Mail Address</label>
+										<input id="email" type="email" class="form-control" name="email" required="" autofocus="">
+									</div>
+
+									<div class="form-group">
+										<label for="password">Password
+										</label>
+										<input id="password" type="password" class="form-control" name="password" required="">
+										<div class="text-right">
+											<a href="password-reset.html" class="small">
+												Forgot Your Password?
+											</a>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="form-check position-relative mb-2">
+										  <input type="checkbox" class="form-check-input d-none" id="remember" name="remember">
+										  <label class="checkbox checkbox-xxs form-check-label ml-1" for="remember"
+												 data-icon="&#xe936">Remember Me</label>
+										</div>
+									</div>
+
+									<div class="form-group no-margin">
+                                        <button class="btn btn-primary" type="submit">Sign In</button>
+										
+									</div>
+									<div class="text-center mt-3 small">
+										Don't have an account? <a href="/signupPage">Sign Up</a>
+									</div>
+								</form>
+							</div>
+						</div>
+
+
+
+      </div>
+    </div>
+  </div>
+  
+</section>

@@ -270,6 +270,26 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 }
 
 
+/*==================================================================
+[singleOrderDetails page]*/
+
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #cd9cf2;
+  
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 255, 1));
+  
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 255, 1))
+  }
+
+.mycustomOne {
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(139,179,140,1) 0%, rgba(236,236,236,1) 0%);
+}
+
+  
 
 /*==================================================================
 [ Menu ]*/
