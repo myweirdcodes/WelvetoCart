@@ -185,13 +185,18 @@ module.exports = {
     }
   },
   orderDetails: async(req,res,next)=>{
-    let orderData = await orderModel.findOne({_id:req.params.id}).populate("products.productId").lean()
-    if (orderData.status == "cancelled") {
-      orderData.cancelled = true;
-    } else if (orderData.status == "delivered") {
-      orderData.delivered = true;
+    try{
+      let orderData = await orderModel.findOne({_id:req.params.id}).populate("products.productId").lean()
+      if (orderData.status == "cancelled") {
+        orderData.cancelled = true;
+      } else if (orderData.status == "delivered") {
+        orderData.delivered = true;
+      }
+      res.render('user/orderDetails',{inUse: true,
+        user: req.session.user,orderData})
+    }catch (error) {
+      next(error);
     }
-    res.render('user/orderDetails',{inUse: true,
-      user: req.session.user,orderData})
+    
   }
 };

@@ -99,9 +99,9 @@ router.post('/dashboardGraph',admincontrol.graphData)
 
 // admin signup routes
 
-//router.get('/signupPage',admincontrol.adminSignupPage)
+router.get('/signupPage',admincontrol.adminSignupPage)
 
-//router.post('/signup',admincontrol.adminSignup)
+router.post('/signup',admincontrol.adminSignup)
 
 
 router.use(function(req, res, next) {
