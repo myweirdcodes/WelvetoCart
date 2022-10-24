@@ -424,7 +424,7 @@ module.exports = {
         .lean();
       let totalAmount = await cartFunctions.totalAmount(cartData);
       let couponData = await couponModel.find().lean();
-      res.render("user/checkOut", {
+      res.render("user/checkout", {
         inUse: true,
         user: req.session.user,
         cartcount,
