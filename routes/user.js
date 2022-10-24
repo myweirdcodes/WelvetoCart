@@ -35,7 +35,7 @@ router.post('/postChangeName',session.userSession,usercontrol.postChangeName)
 
 // user checkout routes
 
-router.get('/checkOut/:id',session.userSession,usercontrol.checkOut)
+router.get('/checkOut',session.userSession,usercontrol.checkOut)
 
 router.post('/billingAddress',usercontrol.billingAddress)
 
