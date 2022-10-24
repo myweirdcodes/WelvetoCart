@@ -3355,3 +3355,15 @@ input.num-product::-webkit-inner-spin-button {
   }
 
 }
+.covering{
+  min-height: 100%;
+}
+
+/* footer */
+
+.user_footer{
+  clear: both;
+  position: relative;
+  height: 200px;
+  margin-top: 0px;
+}
