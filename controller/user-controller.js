@@ -412,7 +412,7 @@ module.exports = {
     }
   },
   checkOut: async (req, res, next) => {
-    
+    try{
       let cartcount = await count.getCartCount(req, res);
       let wishlistcount = await count.getWishlistCount(req, res);
       let addressData = await addressModel
@@ -434,6 +434,10 @@ module.exports = {
         totalAmount,
         couponData,
       });
+    }catch(error){
+      next(error);
+    }
+      
      
   },
   billingAddress: async (req, res, next) => {
