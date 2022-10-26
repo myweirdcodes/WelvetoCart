@@ -1,5 +1,41 @@
 
-<div class="justify-content-center text-center m-t-250">
+<div class="justify-content-center text-center m-t-50">
   <h1>Your order has been confirmed</h1>
    <a href="/shop" class="btn btn-primary m-t-50">View more products</a>
+</div>
+
+<div class="container p-t-20">
+  <h4>Billing Address</h4>
+  {{#each orderDataPopulated.billingAddress}}
+<p class="text muted">Name:{{this.firstName}}<br>Phone:{{this.phone}}<br>Pincode:{{this.pincode}}<br>Address:{{this.address}}<br>City:{{this.city}}<br>State:{{this.state}}<br>Landmark:{{this.landmark}}</p>
+{{/each}}
+<div class="row justify-content-center">
+  <div class="col-sm-6">
+    {{#each orderDataPopulated.products}}
+    <div class="card">
+      <div class="card-body">
+        <div class="row text-center">
+        <div class="col"><h5 class="card-title"><a  href="/productDetails/{{this.productId._id}}">{{this.productId.name}}</a></h5>
+        <img
+                style="width: 100px;height: 100px"
+                src="/product_uploads/{{this.productId.image.[0]}}"
+                alt="IMG-PRODUCT"
+              /></div>
+        <div class="col">
+          <p class="m-t-10">Quantity:{{this.quantity}}</p>
+          
+        <h5 class="text-muted m-t-10" style="font-size: 15px;">Price ₹.{{total this.productId.price this.quantity}}</h5>
+        </div>
+        </div>
+        {{!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+      </div>
+    </div>
+    {{/each}}
+    <p class="text-muted mb-0 float-right" style="font-size: 25px;"><span class="fw-bold me-4">Total</span>₹. {{orderDataPopulated.grandTotal}}</p>
+            </div>
+  </div>
+  
+</div>
+
 </div>

@@ -136,12 +136,18 @@ module.exports = {
       next(error);
     }
   },
-  confirmationPage: (req, res, next) => {
+  confirmationPage:async (req, res, next) => {
     try {
       orderDataPopulated = req.session.confirmationData.orderDataPopulated;
       totalAmount = req.session.confirmationData.totalAmount;
       req.session.confirmationData = null;
-      res.render("user/orderConfirmation", { orderDataPopulated, totalAmount });
+
+      let cartcount = await count.getCartCount(req, res);
+      let wishlistcount = await count.getWishlistCount(req, res);
+      res.render("user/orderConfirmation", { orderDataPopulated, totalAmount,cartcount,
+        wishlistcount,
+        inUse: true,
+        user: req.session.user });
     } catch (error) {
       next(error);
     }
@@ -192,8 +198,11 @@ module.exports = {
       } else if (orderData.status == "delivered") {
         orderData.delivered = true;
       }
+      let cartcount = await count.getCartCount(req, res);
+      let wishlistcount = await count.getWishlistCount(req, res);
       res.render('user/orderDetails',{inUse: true,
-        user: req.session.user,orderData})
+        user: req.session.user,orderData,cartcount,
+        wishlistcount})
     }catch (error) {
       next(error);
     }

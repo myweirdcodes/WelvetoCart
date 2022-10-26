@@ -1,98 +1,117 @@
 <div class="main container justify-content-center">
-    
 
-<section >
-  
-	<div class="container mb-5 text-center mycustomOne" id="myInvoice">
-		{{#if orderData.products}}
-		<table class="table mt-5">
-			<thead>
-				<tr>
-          <th scope="col">#</th>
-					<th scope="col">IMAGE</th>
-					<th scope="col">PRODUCT</th>
-					<th scope="col">PRICE</th>
-					<th scope="col">QUANTITY</th>
-					
-					<th>TOTAL</th>
-				</tr>
 
-			</thead>
-			<tbody>
+	<section>
 
-				{{#each orderData.products}}
-				<tr>
-          <td>{{inc @index}}</td>
-					<td><img style="width: 70px;height:70px" src="/product_uploads/{{this.productId.image.[0]}}"
-							alt="" /></td>
-					<td><a  href="/productDetails/{{this.productId._id}}">{{this.productId.name}}</a></td>
-					<td><p class="text-muted">{{this.productId.price}}</p></td>
-					<td>
-						
-						<span id="{{this.productId._id}}">{{this.quantity}}</span>
-						
-					</td>
-					
-					<td class="column-5" id="total{{this.productId._id}}">
-						<h5 class="text-muted" style="font-size: 15px;">₹.{{total this.productId.price this.quantity}}</h5>
-					</td>
-				</tr>
+		<div class="container mb-5 m-t-20 mycustomOne" id="myInvoice">
+			<h4 class="text-muted pt-5 text-center">INVOICE</h4>
+			{{#if orderData.products}}
+			<table class="table mt-5">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">IMAGE</th>
+						<th scope="col">PRODUCT</th>
+						<th scope="col">PRICE</th>
+						<th scope="col">QUANTITY</th>
+
+						<th>TOTAL</th>
+					</tr>
+
+				</thead>
+				<tbody>
+
+					{{#each orderData.products}}
+					<tr>
+						<td>{{inc @index}}</td>
+						<td><img style="width: 70px;height:70px" src="/product_uploads/{{this.productId.image.[0]}}"
+								alt="" /></td>
+						<td><a href="/productDetails/{{this.productId._id}}">{{this.productId.name}}</a></td>
+						<td>
+							<p class="text-muted">{{this.productId.price}}</p>
+						</td>
+						<td>
+
+							<span id="{{this.productId._id}}">{{this.quantity}}</span>
+
+						</td>
+
+						<td class="column-5" id="total{{this.productId._id}}">
+							<h5 class="text-muted" style="font-size: 15px;">₹.{{total this.productId.price
+								this.quantity}}</h5>
+						</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+			<div class="row">
+				<div class="col">
+                     <h4>Billing Address</h4>
+				{{#each orderData.billingAddress}}
+				<p class="text muted pl-3">
+					Name:{{this.firstName}}<br>Phone:{{this.phone}}<br>Pincode:{{this.pincode}}<br>Address:{{this.address}}<br>City:{{this.city}}<br>State:{{this.state}}<br>Landmark:{{this.landmark}}
+				</p>
 				{{/each}}
-			</tbody>
-		</table>
-    <div class="d-flex justify-content-between pt-2">
-              <p class="fw-bold mb-0">Order Details</p>
-              <p class="text-muted mb-0" style="font-size: 25px;"><span class="fw-bold me-4">Total</span>₹. {{orderData.grandTotal}}</p>
-            </div>
-		<hr>
+				</div>
+				<div class="col">
+                      <div class=" pt-2">
+				{{!-- <p class="fw-bold mb-0">Order Details</p> --}}
+				
+				<p class="text-muted mb-0" style="font-size: 25px;"><span class="fw-bold me-4">Total</span>₹.
+					{{orderData.grandTotal}}</p>
+			</div>
+			<hr>
 
-     <div class="d-flex justify-content-between">
-              
-              {{!-- <p class="text-muted mb-0"><span class="fw-bold me-4"></span>{{orderData.status}}</p> --}}
-              
+			<div class="">
 
-              
-              {{#if orderData.cancelled}}
-                <p class="ml-auto">Already cancelled</p>
-                {{!-- <td id="orderStatus" scope="row">Already cancelled</td> --}}
-                {{else}} {{#if orderData.delivered}}
+				{{!-- <p class="text-muted mb-0"><span class="fw-bold me-4"></span>{{orderData.status}}</p> --}}
+
+
+
+				{{#if orderData.cancelled}}
+				<p class="ml-auto">Already cancelled</p>
+				{{!-- <td id="orderStatus" scope="row">Already cancelled</td> --}}
+				{{else}} {{#if orderData.delivered}}
 				<p> {{orderData.address}}</p>
 				<p class="text-muted mb-0">Invoice Date : {{formatString orderData.createdAt}}</p>
-                <p>Already delivered</p>
-                {{!-- <td id="orderStatus" scope="row">Already delivered</td> --}}
-                {{else}}
-				
-                    <p class="text-muted mb-0">Invoice Date : {{formatString orderData.createdAt}}</p>
-                    <button class="btn btn-outline-danger btn-sm"
-                            onclick="cancelOrder('{{orderData._id}}');">Cancel</button>
-                
-                
-                {{/if}}{{/if}}
-                
-            </div>
-		
-		{{else}}
-		<div class="text-center">
-			<h1 class="my-5  m-l-170 p-l-300">You don't have any orders</h1>
+				<p>Already delivered</p>
+				{{!-- <td id="orderStatus" scope="row">Already delivered</td> --}}
+				{{else}}
+
+				<p class="text-muted mb-0">Invoice Date : {{formatString orderData.createdAt}}</p>
+				<button class="btn btn-outline-danger btn-sm"
+					onclick="cancelOrder('{{orderData._id}}');">Cancel</button>
+
+
+				{{/if}}{{/if}}
+
+			</div>
+				</div>
+			</div>
+			
+
+			{{else}}
+			<div class="text-center">
+				<h1 class="my-5  m-l-170 p-l-300">You don't have any orders</h1>
+			</div>
+
+			{{/if}}
+			<hr>
+
 		</div>
+		{{#if orderData.cancelled}}
 
-		{{/if}}
-		<hr>
-    
-	</div>
-	{{#if orderData.cancelled}}
 
-	   
 
-	<p class="text-muted float-right">Didn't like this product? <a href="/shop">View more</a></p>
+		<p class="text-muted float-right">Didn't like this product? <a href="/shop">View more</a></p>
 
-  {{else}}
-     <div class="text-center " style="padding:20px;">
+		{{else}}
+		<div class="text-center " style="padding:20px;">
 			<button class="btn-success px-2" onclick="generatePDF3()">Download Invoice</button>
 		</div><br>
-   
-  {{/if}}
-</section>
+
+		{{/if}}
+	</section>
 
 </div>
 
@@ -101,56 +120,56 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-		<script>
-			function generatePDF3() {
-			const element = document.getElementById('myInvoice');
-			var opt = {
-				  margin:       1,
-				  filename:     'invoice.pdf',
-				  image:        { type: 'jpeg', quality: 0.98 },
-				  html2canvas:  { scale: 2 },
-				  jsPDF:        { unit: 'in', format:'letter', orientation: 'portrait' }
-				};
-                
-				// Choose the element that our invoice is rendered in.
-				html2pdf().set(opt).from(element).save();
-                
-			}
-		</script>
+<script>
+	function generatePDF3() {
+		const element = document.getElementById('myInvoice');
+		var opt = {
+			margin: 1,
+			filename: 'invoice.pdf',
+			image: { type: 'jpeg', quality: 0.98 },
+			html2canvas: { scale: 2 },
+			jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+		};
+
+		// Choose the element that our invoice is rendered in.
+		html2pdf().set(opt).from(element).save();
+
+	}
+</script>
 
 
 
 <script>
 
-   function cancelOrder(orderId){
+	function cancelOrder(orderId) {
 
 
-       $.ajax({
-            url: '/cancelOrder',
-            data: {
+		$.ajax({
+			url: '/cancelOrder',
+			data: {
 
-                orderId: orderId
+				orderId: orderId
 
-            },
-            method: 'post',
-            success: (response) => {
-                console.log("response:",response)
-                if(response.cancelledOrder){
-                location.reload()
-                //event.preventDefault()
-                }
-                
-
+			},
+			method: 'post',
+			success: (response) => {
+				console.log("response:", response)
+				if (response.cancelledOrder) {
+					location.reload()
+					//event.preventDefault()
+				}
 
 
-            },
-            error: (error) => {
-                alert('hierror')
-                console.log(error)
-            },
-        })
 
 
-   }
+			},
+			error: (error) => {
+				alert('hierror')
+				console.log(error)
+			},
+		})
+
+
+	}
 
 </script>

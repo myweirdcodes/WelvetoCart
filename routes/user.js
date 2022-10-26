@@ -56,9 +56,9 @@ router.get('/orderDetails/:id',session.userSession,ordercontrol.orderDetails)
 
 router.get('/shop',usercontrol.getAllProducts)
 
-router.get('/viewProductByCategory/:id',session.userSession,usercontrol.viewProductByCategory)
+router.get('/viewProductByCategory/:id',usercontrol.viewProductByCategory)
 
-router.get('/productDetails/:id',session.userSession,usercontrol.productDetails)
+router.get('/productDetails/:id',usercontrol.productDetails)
 
 
 
@@ -102,6 +102,9 @@ router.post('/otpverify/:id', usercontrol.post_Otp);
 // router.get('/otp',(req,res)=>{
 //     res.render('user/otp',{layout:false})
 // })
+
+
+
 
 
 module.exports = router;

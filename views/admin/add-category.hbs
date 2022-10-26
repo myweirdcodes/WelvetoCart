@@ -13,6 +13,8 @@
               action="/admin/addCategory"
               method="POST"
               id="addEditForm"
+              name="myForm"
+              onsubmit="return validateForm()"
             >
 
               <label for="">Category</label>
@@ -173,4 +175,16 @@ function editCategory(categoryId){
 
 
 
+</script>
+
+
+<script>
+function validateForm() {
+  let x = document.forms["myForm"]["category"].value;
+  if (x == "") {
+    Swal.fire('Sorry!', 'Category must be filled out',
+                  'failed')
+    return false;
+  }
+}
 </script>

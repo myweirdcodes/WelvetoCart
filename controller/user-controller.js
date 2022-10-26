@@ -86,6 +86,7 @@ module.exports = {
   },
   getAllProducts: async (req, res, next) => {
     try {
+      if(req.session.user){
       let productData = await productModel.find().lean();
       let categoryData = await categoryModel.find().lean();
 
@@ -100,12 +101,29 @@ module.exports = {
         cartcount,
         wishlistcount,
       });
+    }else{
+
+      let productData = await productModel.find().lean();
+      let categoryData = await categoryModel.find().lean();
+
+      
+
+      res.render("user/view-products", {
+        
+        inUse: true,
+        productData,
+        categoryData
+        
+      });
+
+    }
     } catch (error) {
       next(error);
     }
   },
   viewProductByCategory: async function (req, res, next) {
     try {
+      if(req.session.user){
       let productData = await productModel
         .find({ category: objectId(req.params.id) })
         .lean();
@@ -119,6 +137,17 @@ module.exports = {
         cartcount,
         wishlistcount,
       });
+    }else{
+      let productData = await productModel
+      .find({ category: objectId(req.params.id) })
+      .lean();
+
+    
+    res.render("user/productsByCategory", {
+      productData,
+      inUse: true
+    });
+    }
     } catch (error) {
       next(error);
     }
@@ -221,6 +250,7 @@ module.exports = {
   },
   productDetails: async (req, res, next) => {
     try {
+      if(req.session.user){
       let productdetails = await productModel
         .findOne({ _id: req.params.id })
         .populate("category")
@@ -235,6 +265,19 @@ module.exports = {
         wishlistcount,
         cartcount,
       });
+    }else{
+      let productdetails = await productModel
+      .findOne({ _id: req.params.id })
+      .populate("category")
+      .lean();
+
+    
+    res.render("user/productDetails", {
+      
+      inUse: true,
+      productdetails
+    });
+    }
     } catch (error) {
       next(error);
     }
